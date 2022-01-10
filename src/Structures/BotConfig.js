@@ -51,13 +51,13 @@ module.exports = {
 		// sadly jerson went to sleep while i was making the achievements and i couldn't add emojis to them :c
 
 		ACH1: { emoji: '<:getin2craft:929974698572382228>', name: 'Gettin\' on gear' },
-		ACH2: { emoji: '', name: 'Professional Hunter' },
-		ACH3: { emoji: '', name: 'Treasure hunter' },
-		ACH4: { emoji: '', name: 'Active wiz' },
+		ACH2: { emoji: '<:professionalhunter:929975155126595614>', name: 'Professional Hunter' },
+		ACH3: { emoji: '<:getin2fish:929974876633198672>, name: 'Treasure hunter' },
+		ACH4: { emoji: '<:professionalhunter:929975155126595614> <:act5wiz:929974967569907725> ', name: 'Active wiz' },
 		ACH5: { emoji: ''<:getin2f8:929974774510288978>, name: 'Fightin\' boy' },
-		ACH6: { emoji: '', name: 'Catch that fish' },
-		ACH7: { emoji: '', name: 'Gettin\' into huntin\'' },
-		ACH8: { emoji: '', name: 'Complete the GAME' },
+		ACH6: { emoji: '<:getin2fish:929974876633198672>', name: 'Catch that fish' },
+		ACH7: { emoji: '<:getin2hunt:929975087153684490>', name: 'Gettin\' into huntin\'' },
+		ACH8: { emoji: '<:essencemaster:929975223376310283>', name: 'Complete the GAME' },
 	},
 	mobs: [
 		{ name: 'Bear', hp: 60, essence: 'EarthEssence' },
