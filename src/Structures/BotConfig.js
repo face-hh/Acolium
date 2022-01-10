@@ -50,11 +50,11 @@ module.exports = {
 	achievements: {
 		// sadly jerson went to sleep while i was making the achievements and i couldn't add emojis to them :c
 
-		ACH1: { emoji: '', name: 'Gettin\' on gear' },
+		ACH1: { emoji: '<:getin2craft:929974698572382228>', name: 'Gettin\' on gear' },
 		ACH2: { emoji: '', name: 'Professional Hunter' },
 		ACH3: { emoji: '', name: 'Treasure hunter' },
 		ACH4: { emoji: '', name: 'Active wiz' },
-		ACH5: { emoji: '', name: 'Fightin\' boy' },
+		ACH5: { emoji: ''<:getin2f8:929974774510288978>, name: 'Fightin\' boy' },
 		ACH6: { emoji: '', name: 'Catch that fish' },
 		ACH7: { emoji: '', name: 'Gettin\' into huntin\'' },
 		ACH8: { emoji: '', name: 'Complete the GAME' },
