@@ -99,7 +99,11 @@ module.exports = class PingInteraction extends InteractionBase {
 			if(button.member.id !== gameData[0].NAME) return;
 			if(gameData[0].turn === false) return;
 
+<<<<<<< HEAD
 			await button.acknowledge();
+=======
+			if(button.acknowledged === false) await button.acknowledge();
+>>>>>>> [CHANGES] Commit.
 			gameData[0].turn = false;
 			gameData[1].turn = true;
 
@@ -117,7 +121,16 @@ module.exports = class PingInteraction extends InteractionBase {
 			await checkForWin();
 		});
 
+<<<<<<< HEAD
 		this.client.on('command', (interact) => {if(interact.member.user.id === interaction.member.user.id) return collector.stopListening('end');});
+=======
+		this.client.on('command', (interact) => {
+			if(interact.member.user.id === interaction.member.user.id) {
+				this.client.removeListener('command', () => '');
+				return collector.stopListening('end');
+			}
+		});
+>>>>>>> [CHANGES] Commit.
 
 		function attack(who1, who2, index) {
 			// let's bully that enemy >:)
@@ -125,7 +138,11 @@ module.exports = class PingInteraction extends InteractionBase {
 			const amount = Math.floor(Math.random() * max) + 2;
 			const randomChanceToMiss = Math.floor(Math.random() * 100);
 
+<<<<<<< HEAD
 			if(randomChanceToMiss <= 30) {
+=======
+			if(randomChanceToMiss <= 15) {
+>>>>>>> [CHANGES] Commit.
 				if(gameEnded === true) return;
 				string += `[ATTACK] ${who1} attacks ${who2} for ${amount} HP.\n[DODGE] ${who2} dodges the previous attack.\n`;
 			}
@@ -160,10 +177,18 @@ module.exports = class PingInteraction extends InteractionBase {
 					const e = await client.db.addAchievement('ACH5', interaction, client);
 					data.Achievements = e.Achievements;
 					data.Backpack.Essences[randomEnemy.essence]++;
+<<<<<<< HEAD
 					client.db.forceUpdate({ UserId: interaction.member.id }, data, require('../../Schemas/Users'));
 				}
 				gameEnded = true;
 				string += `[END] This game has ended! The winner is ${gameData[1].HP <= 0 ? 'WizWiz (+1 ' + randomEnemy.essence + ')' : gameData[1].NAME}.`;
+=======
+					data.Backpack.Craftable.DuckTape++;
+					client.db.forceUpdate({ UserId: interaction.member.id }, data, require('../../Schemas/Users'));
+				}
+				gameEnded = true;
+				string += `[END] This game has ended! The winner is ${gameData[1].HP <= 0 ? 'WizWiz (+1 ' + randomEnemy.essence + ' | ' + '+1 Duck Tape' + ')' : gameData[1].NAME}.`;
+>>>>>>> [CHANGES] Commit.
 				collector.stopListening('end');
 				interaction.editOriginalMessage(messageObject, { name: 'file.png', file: dababy(gameData) });
 			}

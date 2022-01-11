@@ -30,6 +30,11 @@ module.exports = class BotClient extends Client {
 	}
 
 	async connect() {
+<<<<<<< HEAD
+=======
+		require('events').EventEmitter.defaultMaxListeners = 0;
+
+>>>>>>> [CHANGES] Commit.
 		this.utils.loadEvents()
 			.then(console.log(
 				'---------------================================------------------\n' +

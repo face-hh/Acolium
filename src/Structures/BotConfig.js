@@ -25,9 +25,15 @@ module.exports = {
 		// FISH
 		{ name: 'Treasure', price: 500000, type: 'COLLECTABLE', emoji: '<:treasure:928639227783168050>' },
 		{ name: 'Whale', price: 25000, type: 'COLLECTABLE', emoji: '<:whale_bot:929645852069355571>' },
+<<<<<<< HEAD
 		{ name: 'Exotic Fish', price: 5000, type: 'COLLECTABLE', emoji: '<:ducktape:929320660277264385>' },
 		{ name: 'Fish', price: 1000, type: 'COLLECTABLE', emoji: '<:fish_bot:929320660466024518>' },
 		{ name: 'DuckTape', price: 700, type: 'COLLECTABLE', emoji: '<:exotic_fish:929320660306645023>' },
+=======
+		{ name: 'Exotic Fish', price: 5000, type: 'COLLECTABLE', emoji: '<:exotic_fish:929320660306645023>' },
+		{ name: 'Fish', price: 1000, type: 'COLLECTABLE', emoji: '<:fish_bot:929320660466024518>' },
+		{ name: 'DuckTape', price: 700, type: 'COLLECTABLE', emoji: '<:ducktape:929320660277264385>' },
+>>>>>>> [CHANGES] Commit.
 		{ name: 'Sand', price: 100, type: 'COLLECTABLE', emoji: '<:sand:928639227720269836>' },
 		{ name: 'Garbage', price: 50, type: 'COLLECTABLE', emoji: '<:garbage:928639228051595324>' },
 		// POTIONS
@@ -52,9 +58,15 @@ module.exports = {
 
 		ACH1: { emoji: '<:getin2craft:929974698572382228>', name: 'Gettin\' on gear' },
 		ACH2: { emoji: '<:professionalhunter:929975155126595614>', name: 'Professional Hunter' },
+<<<<<<< HEAD
 		ACH3: { emoji: '<:getin2fish:929974876633198672>, name: 'Treasure hunter' },
 		ACH4: { emoji: '<:professionalhunter:929975155126595614> <:act5wiz:929974967569907725> ', name: 'Active wiz' },
 		ACH5: { emoji: ''<:getin2f8:929974774510288978>, name: 'Fightin\' boy' },
+=======
+		ACH3: { emoji: '<:getin2fish:929974876633198672>', name: 'Treasure hunter' },
+		ACH4: { emoji: '<:act5wiz:929974967569907725>', name: 'Active wiz' },
+		ACH5: { emoji: '<:getin2f8:929974774510288978>', name: 'Fightin\' boy' },
+>>>>>>> [CHANGES] Commit.
 		ACH6: { emoji: '<:getin2fish:929974876633198672>', name: 'Catch that fish' },
 		ACH7: { emoji: '<:getin2hunt:929975087153684490>', name: 'Gettin\' into huntin\'' },
 		ACH8: { emoji: '<:essencemaster:929975223376310283>', name: 'Complete the GAME' },

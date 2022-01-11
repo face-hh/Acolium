@@ -74,7 +74,11 @@ module.exports = class PingInteraction extends InteractionBase {
 		collector.on('collect', async button => {
 			if(!['left', 'craft1', 'right'].includes(button.data.custom_id)) return;
 
+<<<<<<< HEAD
 			await button.acknowledge();
+=======
+			if(button.acknowledged === false) await button.acknowledge();
+>>>>>>> [CHANGES] Commit.
 			// SET
 			if(button.data.custom_id === 'left') i--;
 			if(button.data.custom_id === 'right') i++;

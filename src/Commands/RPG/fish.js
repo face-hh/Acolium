@@ -36,7 +36,11 @@ module.exports = class PingInteraction extends InteractionBase {
 			color: fish.color,
 		};
 
+<<<<<<< HEAD
 		data.Backpack.Fishes[fish.prize]++;
+=======
+		data.Backpack.Fishes[fish.prize.replace(/ /gi, '')]++;
+>>>>>>> [CHANGES] Commit.
 		data.Coins -= 60;
 		this.client.db.forceUpdate({ UserId: interaction.member.id }, data, require('../../Schemas/Users'));
 

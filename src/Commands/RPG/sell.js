@@ -22,7 +22,11 @@ module.exports = class PingInteraction extends InteractionBase {
 		const data = await this.client.db.findUser(interaction.member.id);
 		const options = interaction.data.options;
 		const itemsData = require('../../Structures/BotConfig').itemsData;
+<<<<<<< HEAD
 		const specifiedItemData = itemsData.find((x) => x.name.toLowerCase().includes(options[0].value.toLowerCase()));
+=======
+		const specifiedItemData = itemsData.find((x) => x.name.toLowerCase() === options[0].value.toLowerCase());
+>>>>>>> [CHANGES] Commit.
 
 
 		if(specifiedItemData === undefined) return interaction.createFollowup('I could not find that item! :(');

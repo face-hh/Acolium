@@ -16,6 +16,7 @@ module.exports = class PingInteraction extends InteractionBase {
 		const data = await this.client.db.findUser(interaction.member.id);
 		const client = this.client;
 
+<<<<<<< HEAD
 		const componentsArray = [{
 			type: 1,
 			components: [
@@ -23,6 +24,20 @@ module.exports = class PingInteraction extends InteractionBase {
 				{ type: 2, label: 'Animals', custom_id: 'Animals', style: 2 },
 				{ type: 2, label: 'Essences', custom_id: 'Essences', style: 3 },
 				{ type: 2, label: 'Craftable', custom_id: 'Craftable', style: 4 },
+=======
+		const fishes = String(Math.random());
+		const animals = String(Math.random());
+		const essence = String(Math.random());
+		const craftable = String(Math.random());
+
+		const componentsArray = [{
+			type: 1,
+			components: [
+				{ type: 2, label: 'Fishes', custom_id: fishes, style: 1, disabled: true },
+				{ type: 2, label: 'Animals', custom_id: animals, style: 2 },
+				{ type: 2, label: 'Essences', custom_id: essence, style: 3 },
+				{ type: 2, label: 'Craftable', custom_id: craftable, style: 4 },
+>>>>>>> [CHANGES] Commit.
 			],
 		}];
 		const embed1 = { title: 'Inventory: Fishes', description: '', color: this.client.utils.randomHex() };
@@ -42,10 +57,17 @@ module.exports = class PingInteraction extends InteractionBase {
 		Object.keys(this.client.utils.filterTheItems(data.Backpack.Craftable)).forEach((key) => embed4.description += `[\`${data.Backpack.Craftable[key].toLocaleString()}\`] **${findItemInfo(key).emoji} ${key}**\n_ _   <:arrow_bot:928663052138733579> Type: \`${findItemInfo(key).type}\`\n`);
 
 		const mappedIds = {
+<<<<<<< HEAD
 			'Fishes': embed1,
 			'Animals': embed2,
 			'Essences': embed3,
 			'Craftable': embed4,
+=======
+			[fishes]: embed1,
+			[animals]: embed2,
+			[essence]: embed3,
+			[craftable]: embed4,
+>>>>>>> [CHANGES] Commit.
 		};
 		await interaction.acknowledge();
 		interaction.createFollowup({ embed: embed1, components: componentsArray });
@@ -60,10 +82,17 @@ module.exports = class PingInteraction extends InteractionBase {
 		collector.on('collect', async button => {
 			if(!Object.keys(mappedIds).includes(button.data.custom_id)) return;
 
+<<<<<<< HEAD
 			await button.acknowledge();
 			// SET
 			componentsArray[0].components[Object.keys(mappedIds).indexOf(button.data.custom_id)].disabled = true;
 			if(button.data.custom_id !== 'Fishes') componentsArray[0].components[0].disabled = false;
+=======
+			if(button.acknowledged === false) await button.acknowledge();
+			// SET
+			componentsArray[0].components[Object.keys(mappedIds).indexOf(button.data.custom_id)].disabled = true;
+			if(button.data.custom_id !== fishes) componentsArray[0].components[0].disabled = false;
+>>>>>>> [CHANGES] Commit.
 
 			interaction.editOriginalMessage({ embed: mappedIds[button.data.custom_id], components: componentsArray });
 

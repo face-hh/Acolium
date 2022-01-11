@@ -77,7 +77,10 @@ module.exports = class AcoliumDatabase {
 			data.Statistics.LEVEL++;
 			data.Coins += 1200 * data.Statistics.LEVEL;
 
+<<<<<<< HEAD
 			console.log(`Coins from level up: ${data.Coins}`);
+=======
+>>>>>>> [CHANGES] Commit.
 			bool = true;
 			return { data, bool };
 		}
@@ -88,7 +91,11 @@ module.exports = class AcoliumDatabase {
 	async addCoins(userId, amount) {
 		const data = await this.findUser(userId);
 
+<<<<<<< HEAD
 		amount = data.Backpack.Craftable.CoinAmulet > 0 ? amount + (amount * (7 / 100)) : amount;
+=======
+		amount = data.Backpack.Craftable.CoinAmulet > 0 ? amount + (amount * (10 / 100)) : amount;
+>>>>>>> [CHANGES] Commit.
 		data.Coins += amount;
 
 		return data;
@@ -97,7 +104,11 @@ module.exports = class AcoliumDatabase {
 	async addAchievement(which, interaction, client) {
 		const data = await this.findUser(interaction.member.id);
 
+<<<<<<< HEAD
 		if(data.Achievements[which] === true) return;
+=======
+		if(data.Achievements[which] === true) return data;
+>>>>>>> [CHANGES] Commit.
 
 		client.createMessage(interaction.channel.id, `\`[🐒]\` New achievement!\n\`[  ]\` **${config.achievements[which].emoji + config.achievements[which].name}**.`);
 		data.Achievements[which] = true;

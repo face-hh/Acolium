@@ -17,8 +17,12 @@ module.exports = class extends Event {
 				if (timestamps.has(interaction.member.user.id)) {
 					const expirationTime = timestamps.get(interaction.member.user.id) + this.client.config.cooldowns[command.name];
 					if (Date.now() < expirationTime) {
+<<<<<<< HEAD
 						const timeLeft = ms(expirationTime);
 						console.log(timeLeft, expirationTime);
+=======
+						const timeLeft = ms((timestamps.get(interaction.member.id) + this.client.config.cooldowns[command.name]) - Date.now());
+>>>>>>> [CHANGES] Commit.
 						await interaction.acknowledge();
 						return interaction.createFollowup({ content: `⏰ | This command is on cooldown for \`${timeLeft}\``, flags: 64 });
 					}
@@ -38,13 +42,22 @@ module.exports = class extends Event {
 				);
 			}
 			catch (err) {
+<<<<<<< HEAD
 				interaction.createMessage({
+=======
+				this.client.createMessage(interaction.channel.id, {
+>>>>>>> [CHANGES] Commit.
 					content: 'Something went wrong!',
 					ephemeral: true,
 				});
 
+<<<<<<< HEAD
 				console.error(err);
 				// console.minor(`Error catched: ${err}`);
+=======
+				// console.error(err);
+				console.minor(`Error catched: ${err}`);
+>>>>>>> [CHANGES] Commit.
 			}
 		}
 

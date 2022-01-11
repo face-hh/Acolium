@@ -17,6 +17,10 @@ const Users = new Schema({
 			WaterEssence: { type: Number, default: 0 },
 		},
 		Craftable: {
+<<<<<<< HEAD
+=======
+			DuckTape: { type: Number, default: 0 },
+>>>>>>> [CHANGES] Commit.
 			Scope: { type: Number, default: 0 },
 			Glass: { type: Number, default: 0 },
 			WaterPurifier: { type: Number, default: 0 },
@@ -32,7 +36,10 @@ const Users = new Schema({
 		Fishes: {
 			Garbage: { type: Number, default: 0 },
 			Sand: { type: Number, default: 0 },
+<<<<<<< HEAD
 			DuckTape: { type: Number, default: 0 },
+=======
+>>>>>>> [CHANGES] Commit.
 			Fish: { type: Number, default: 0 },
 			ExoticFish: { type: Number, default: 0 },
 			Whale: { type: Number, default: 0 },
