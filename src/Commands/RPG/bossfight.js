@@ -17,11 +17,7 @@ module.exports = class PingInteraction extends InteractionBase {
 		await interaction.acknowledge();
 
 		const client = this.client;
-<<<<<<< HEAD
-		const randomEnemy = { name: 'Billy', hp: 160 };
-=======
 		const randomEnemy = { name: 'Billy', hp: 530 };
->>>>>>> [CHANGES] Commit.
 		const Canvas = require('canvas');
 
 		const assets = {
@@ -103,11 +99,7 @@ module.exports = class PingInteraction extends InteractionBase {
 			if(button.member.id !== gameData[0].NAME) return;
 			if(gameData[0].turn === false) return;
 
-<<<<<<< HEAD
-			await button.acknowledge();
-=======
 			if(button.acknowledged === false) await button.acknowledge();
->>>>>>> [CHANGES] Commit.
 			gameData[0].turn = false;
 			gameData[1].turn = true;
 
@@ -128,13 +120,8 @@ module.exports = class PingInteraction extends InteractionBase {
 		this.client.on('command', (interact) => {if(interact.member.user.id === interaction.member.user.id) return collector.stopListening('end');});
 
 		function attack(who1, who2, index) {
-<<<<<<< HEAD
-			// let's bully that enemy >:)
-			const max = who1 === randomEnemy.name ? 20 : 50;
-=======
 			// let's bully you now >:C
 			const max = who1 === interaction.member.id ? 35 : 50;
->>>>>>> [CHANGES] Commit.
 			const amount = Math.floor(Math.random() * max) + 2;
 			const randomChanceToMiss = Math.floor(Math.random() * 100);
 
