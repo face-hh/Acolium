@@ -19,21 +19,13 @@ module.exports = class PingInteraction extends InteractionBase {
 		let achievements = '';
 
 		// Getting the array of keys from data.Achievements || Mapping them by using the key, if the value of the achievement is true, add it's emoji.
-<<<<<<< HEAD
-		Object.keys(data.Achievements).map(key => { if(data.Achievements[key] === true) achievements += this.client.emojis[key]; });
-
-		const embed = {
-			fields: [
-				{ inline: false, name: 'Achievements', value: achievements === '' ? 'None lsoer' : achievements },
-=======
 		Object.keys(data.Achievements).map(key => { if(data.Achievements[key] === true) achievements += this.client.config.achievements[key].emoji; });
 
 		const embed = {
 			fields: [
 				{ inline: true, name: 'Achievements', value: achievements === '' ? 'None lsoer' : achievements },
 				{ inline: true, name: '\u200b', value: '\u200b' },
-				{ inline: true, name: 'Playing since', value: `<t:${Math.round(data.Statistics.RegisteredAt / 1000)}> (<t:${Math.round(data.Statistics.RegisteredAt / 1000)}:R>)` },
->>>>>>> [CHANGES] Commit.
+				{ inline: true, name: 'Playing since', value: `<t:${data.Statistics.RegisteredAt}> (<t:${Math.round(data.Statistics.RegisteredAt / 1000)}:R>)` },
 				{ inline: true, name: 'XP', value: this.client.utils.emojifiedPercentage(data.Statistics.XP / (data.Statistics.LEVEL * 100) * 100) },
 				{ inline: true, name: 'Level', value: data.Statistics.LEVEL },
 				{ inline: true, name: '\u200b', value: '\u200b' },

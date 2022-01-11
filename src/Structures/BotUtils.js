@@ -20,11 +20,7 @@ module.exports = class Utilities {
 
 			this.client.interactions.set(interaction.name, interaction);
 			this.client.cooldowns.set(interaction.name, new Map());
-<<<<<<< HEAD
-			this.client.createGuildCommand('881813009876520980', interaction);
-=======
 			this.client.createCommand(interaction);
->>>>>>> [CHANGES] Commit.
 		}
 	}
 
