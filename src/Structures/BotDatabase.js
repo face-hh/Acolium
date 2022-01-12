@@ -37,6 +37,8 @@ module.exports = class AcoliumDatabase {
 		if (!user) {
 			const newUser = new User({ UserId: userId });
 
+			delete newUser.UserId_1;
+
 			await newUser
 				.save()
 				.catch((error) => console.minor('Error catched: ' + error));

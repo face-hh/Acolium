@@ -21,7 +21,8 @@ module.exports = class Utilities {
 
 			this.client.interactions.set(interaction.name, interaction);
 			this.client.cooldowns.set(interaction.name, new Map());
-			this.client.createCommand(interaction);
+
+			this.client.config.devMode === true ? this.client.createGuildCommand('881813009876520980', interaction) : this.client.createCommand(interaction);
 		}
 	}
 
@@ -150,4 +151,44 @@ module.exports = class Utilities {
 
 		return res;
 	}
+
+	convertBytes(x) {
+		const units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+		let l = 0;
+		let n = parseInt(x, 10) || 0;
+		while(n >= 1024 && l++) {
+			n = n / 1024;
+		}
+		return (n.toFixed(n < 10 && l > 0 ? 1 : 0) + ' ' + units[l]);
+	}
+
+	convertSecToTime(time) {
+		const seconds = time % 1000;
+		const minutes = Math.floor((time / 1000)) % 60;
+		const hours = Math.floor((time / (60 * 1000))) % 60;
+		const days = Math.floor(time / (60 * 1000 * 60 * 24));
+
+		let string = '';
+
+		if(minutes === 0) string = `${seconds}s`;
+		if(hours === 0) string = `${minutes}m ${seconds}s`;
+		if(days === 0) string = `${days}d ${minutes}m ${seconds}s`;
+
+		return string;
+	}
+
+	topCommonElementsInArray(nums, maxResults) {
+		const hash = {};
+
+		for (const num of nums) {
+			if (!hash[num]) hash[num] = 0;
+			hash[num]++;
+		}
+
+		const hashToArray = Object.entries(hash);
+		const sortedArray = hashToArray.sort((a, b) => b[1] - a[1]);
+
+		return sortedArray.slice(0, maxResults);
+	}
+
 };

@@ -24,8 +24,8 @@ module.exports = class PingInteraction extends InteractionBase {
 		const itemsData = require('../../Structures/BotConfig').itemsData;
 		const specifiedItemData = itemsData.find((x) => x.name.toLowerCase() === options[0].value.toLowerCase());
 
-
 		if(specifiedItemData === undefined) return interaction.createFollowup('I could not find that item! :(');
+		if(specifiedItemData.price === null) return interaction.createFollowup('That item is not sellable! :(');
 
 		const databaseItemName = specifiedItemData.name.replace(/ /gi, '');
 		const whereIsTheItem = Object.keys(data.Backpack).filter(x => data.Backpack[x][databaseItemName] !== undefined);

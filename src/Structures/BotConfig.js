@@ -1,9 +1,9 @@
 module.exports = {
-	token: process.env.TOKEN,
 	prefix: process.env.PREFIX,
 	developers: process.env.DEVELOPERS,
+	devMode: false,
+	token: undefined,
 
-	devMode: true,
 	craftData: [
 		{ name: 'Scope', neededItems: [{ DuckTape: 1, Glass: 1 }], Coins: 25000, description: 'Boosts hunt chances by 25%.' },
 		{ name: 'Glass', neededItems: [{ Sand: 1, FireEssence: 1 }], Coins: 1000, description: 'Used in crafting.' },

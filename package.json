@@ -8,10 +8,6 @@
 		"start": "set DEBUG=* & node src/index.js",
 		"lint": "./node_modules/.bin/eslint src/index.js"
 	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://face-hh: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@github.com/WekyDev/Amit.git"
-	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
@@ -22,7 +18,7 @@
 	"dependencies": {
 		"canvas": "^2.8.0",
 		"dotenv": "^10.0.0",
-		"eris": "^0.16.1",
+		"eris": "github:face-hh/eris#dev",
 		"eslint": "^8.6.0",
 		"glob": "^7.2.0",
 		"mongoose": "^6.0.14",

@@ -5,6 +5,8 @@ const config = require('./BotConfig');
 
 module.exports = class BotClient extends Client {
 	constructor(options = config) {
+		options.token = config.devMode === true ? process.env.TOKEN_DEV : process.env.TOKEN;
+
 		super(options.token, { restMode: true });
 
 		this.validate(options);
