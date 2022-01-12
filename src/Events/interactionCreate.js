@@ -42,8 +42,8 @@ module.exports = class extends Event {
 					ephemeral: true,
 				});
 
-				// console.error(err);
-				console.minor(`Error catched: ${err}`);
+				console.error(err);
+				// console.minor(`Error catched: ${err}`);
 			}
 		}
 

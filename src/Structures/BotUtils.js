@@ -12,6 +12,7 @@ module.exports = class Utilities {
 
 	async loadInteractions() {
 		const interactions = await glob(`${this.directory}/Commands/**/*.js`);
+
 		for (const interactionFile of interactions) {
 			delete require.cache[interactionFile];
 			const { name } = path.parse(interactionFile);
