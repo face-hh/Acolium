@@ -30,7 +30,7 @@ module.exports = class PingInteraction extends InteractionBase {
 				{ inline: true, name: 'Level', value: data.Statistics.LEVEL },
 				{ inline: true, name: '\u200b', value: '\u200b' },
 				{ inline: true, name: 'Commands Used', value: data.Statistics.CommandsUsed.length },
-				{ inline: true, name: 'Most used commands', value: topCommands.slice(0, 5).map((val) => `\`${topCommands.indexOf(val) + 1}\`. **${val[0]}** (x${val[1]})`).join('\n') },
+				{ inline: true, name: 'Most used commands', value: topCommands.slice(0, 5).map((val) => `\`${topCommands.indexOf(val) + 1}\`. **${val[0]}** (x${val[1]})`).join('\n') || 'None to display!' },
 				{ inline: true, name: '\u200b', value: '\u200b' },
 				{ inline: true, name: 'Balance', value: data.Coins.toLocaleString() + this.client.config.coinEmoji },
 			],
