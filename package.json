@@ -18,7 +18,7 @@
 	"dependencies": {
 		"canvas": "^2.8.0",
 		"dotenv": "^10.0.0",
-		"eris": "github:face-hh/eris#dev",
+		"eris": "git+https://face-hh@github.com/face-hh/eris.git",
 		"eslint": "^8.6.0",
 		"glob": "^7.2.0",
 		"mongoose": "^6.0.14",
