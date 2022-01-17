@@ -38,6 +38,7 @@ module.exports = {
 		{ name: 'Earth Essence', price: null, type: 'ESSENCE', emoji: '<a:earth_essence:928965926924193803>' },
 	],
 	coinEmoji: '<:bot_coin:928639227921571850>',
+
 	cooldowns: {
 		achievements: 6000,
 		backpack: 6000,
