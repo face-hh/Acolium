@@ -157,8 +157,6 @@ module.exports = class PingInteraction extends InteractionBase {
 
 		async function checkForWin() {
 			if(gameData[1].HP <= 0 || gameData[0].HP <= 0) {
-				disableButtons();
-
 				const wonByWho = gameData[1].HP <= 0 ? 'WizWiz' : gameData[1].NAME;
 
 				if(wonByWho === 'WizWiz') {
@@ -171,6 +169,8 @@ module.exports = class PingInteraction extends InteractionBase {
 				gameEnded = true;
 				string += `[END] This game has ended! The winner is ${gameData[1].HP <= 0 ? 'WizWiz (+1 ' + randomEnemy.essence + ' | ' + '+1 Duck Tape' + ')' : gameData[1].NAME}.`;
 				collector.stopListening('end');
+
+				disableButtons();
 				interaction.editOriginalMessage(messageObject, { name: 'file.png', file: dababy(gameData) });
 			}
 		}
