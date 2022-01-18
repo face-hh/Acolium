@@ -7,7 +7,7 @@ module.exports = class PingInteraction extends InteractionBase {
 			description: 'See your profile!',
 			opions: [{
 				name: 'user',
-				type: 6,
+				type: 5,
 				description: 'You want to see a profile of a user in particular?',
 			}],
 			cooldown: 6000,
