@@ -1,6 +1,5 @@
 const InteractionBase = require('../../Structures/CommandBase');
-const { Constants } = require('eris');
-console.log(Constants.CommandOptionTypes)
+
 module.exports = class PingInteraction extends InteractionBase {
 	constructor(...args) {
 		super(...args, {
@@ -8,7 +7,7 @@ module.exports = class PingInteraction extends InteractionBase {
 			description: 'See your profile!',
 			opions: [{
 				name: 'user',
-				type: Constants.CommandOptionTypes.MEMBER,
+				type: 2,
 				description: 'You want to see a profile of a user in particular?',
 			}],
 			cooldown: 6000,
