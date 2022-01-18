@@ -5,11 +5,9 @@ module.exports = class PingInteraction extends InteractionBase {
 		super(...args, {
 			name: 'profile',
 			description: 'See your profile!',
-			opions: [{
-				name: 'user',
-				type: 6,
-				description: 'You want to see a profile of a user in particular?',
-			}],
+			opions: [
+				{ name: 'user', type: 6, description: 'You want to see a profile of a user in particular?'}
+			],
 			cooldown: 6000,
 		});
 	}
@@ -18,7 +16,7 @@ module.exports = class PingInteraction extends InteractionBase {
    * @param {Client} client
    */
 	async run(interaction) {
-		const user = interaction.data.options[0].value === undefined ? interaction.member : await client.getRESTUser(interaction.data.options[0].value)
+		const user = interaction.data.options[0] === undefined ? interaction.member : await client.getRESTUser(interaction.data.options[0].value)
 		const data = await this.client.db.findUser(interaction.member.id);
 		const topCommands = this.client.utils.topCommonElementsInArray(data.Statistics.CommandsUsed);
 
