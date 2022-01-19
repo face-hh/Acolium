@@ -16,8 +16,8 @@ module.exports = class PingInteraction extends InteractionBase {
    * @param {Client} client
    */
 	async run(interaction) {
-		const user = interaction.data.options[0] === undefined ? interaction.member : await client.getRESTUser(interaction.data.options[0].value)
-		const data = await this.client.db.findUser(interaction.member.id);
+		const user = interaction.data.options === undefined ? interaction.member : await this.client.getRESTUser(interaction.data.options[0].value)
+		const data = await this.client.db.findUser(user);
 		const topCommands = this.client.utils.topCommonElementsInArray(data.Statistics.CommandsUsed);
 
 		// Achievements.
@@ -38,7 +38,7 @@ module.exports = class PingInteraction extends InteractionBase {
 				{ inline: true, name: '\u200b', value: '\u200b' },
 				{ inline: true, name: 'Balance', value: data.Coins.toLocaleString() + this.client.config.coinEmoji },
 			],
-			thumbnail: { url: interaction.member.user.dynamicAvatarURL('png') },
+			thumbnail: { url: user === interaction.member ? user.user.dynamicAvatarURL('png') : user.dynamicAvatarURL('png') },
 			color: this.client.utils.randomHex(),
 
 		};
