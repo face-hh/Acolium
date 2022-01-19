@@ -17,7 +17,7 @@ module.exports = class PingInteraction extends InteractionBase {
    */
 	async run(interaction) {
 		const user = interaction.data.options === undefined ? interaction.member : await this.client.getRESTUser(interaction.data.options[0].value)
-		const data = await this.client.db.findUser(user);
+		const data = await this.client.db.findUser(user.id);
 		const topCommands = this.client.utils.topCommonElementsInArray(data.Statistics.CommandsUsed);
 
 		// Achievements.
