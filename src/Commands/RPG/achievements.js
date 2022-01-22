@@ -20,7 +20,10 @@ module.exports = class PingInteraction extends InteractionBase {
 
 		// Getting the array of keys from data.Achievements || Mapping them by using the key, if the value of the achievement is true, add it's emoji.
 		Object.keys(data.Achievements).forEach(key => {
-			achievements.push({ inline: true, value: '\u200b', name: data.Achievements[key] === false ? '`???`' : this.client.config.achievements[key].emoji + this.client.config.achievements[key].name });
+			const name = data.Achievements[key] === false ? '`???`' : this.client.config.achievements[key].emoji + this.client.config.achievements[key].name;
+			const desc = data.Achievements[key] === false ? '> `?????????`' : `> ${this.client.config.achievements[key].description}`;
+
+			achievements.push({ inline: false, value: desc, name: name });
 		});
 
 		const embed = {

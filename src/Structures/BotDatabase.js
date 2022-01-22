@@ -61,6 +61,7 @@ module.exports = class AcoliumDatabase {
 		Object.keys(data).forEach((e) => { obj[e] = data[e]; });
 
 		delete obj._doc._id;
+		delete obj._doc.UserId_1;
 		delete obj._doc.__v;
 
 		await schema.updateOne(query, obj._doc, { upsert: true });

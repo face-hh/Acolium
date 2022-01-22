@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 const Users = new Schema({
-	UserId: { type: String, unique: true },
+	UserId: { type: String, required: true },
 	Statistics: {
 		XP: { type: Number, default: 0 },
 		LEVEL: { type: Number, default: 1 },
