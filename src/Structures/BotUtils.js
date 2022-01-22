@@ -125,7 +125,7 @@ module.exports = class Utilities {
 			{ min: 10, max: 30, color: 0x02ff00, tier: 'RARE', prize: 'Exotic Fish' },
 			{ min: 30, max: 60, color: 0xff9e67, tier: 'UNCOMMON', prize: 'Fish' },
 			{ min: 60, max: 80, color: 0xffffff, tier: 'COMMON', prize: 'Sand' },
-			{ min: 80, max: 100, color: 0x202020, tier: 'bruh', prize: 'Garbage' },
+			{ min: 80, max: 100, color: 0x202020, tier: 'BRUH', prize: 'Garbage' },
 		];
 		let prize;
 		let tier;

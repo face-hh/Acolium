@@ -17,48 +17,57 @@ module.exports = class PingInteraction extends InteractionBase {
 
 		let i = 0;
 
+		const client = this.client;
+		const customIds = {
+			craft: String(Math.random()),
+			left: String(Math.random()),
+			right: String(Math.random()),
+		};
 		const componentsArray = [{
 			type: 1,
 			components: [
-				{ type: 2, emoji: { name: '⬅️' }, label: '\u200b', custom_id: 'left', style: 1, disabled: true },
-				{ type: 2, label: 'Craft x1', custom_id: 'craft1', style: 2 },
-				{ type: 2, emoji: { name: '➡️' }, label: '\u200b', custom_id: 'right', style: 4 },
+				{ type: 2, emoji: { name: '⬅️' }, label: '\u200b', custom_id: customIds.left, style: 1, disabled: true },
+				{ type: 2, label: 'Craft x1', custom_id: customIds.craft, style: 2 },
+				{ type: 2, emoji: { name: '➡️' }, label: '\u200b', custom_id: customIds.right, style: 1 },
 			],
 		}];
-		const embeds = [];
+		let embeds = [];
 
-		this.client.config.craftData.forEach((craftData) => {
-			const itemData = this.client.config.itemsData.find((x) => x.name.replace(/ /gi, '').includes(craftData.name.replace(/ /gi, '')));
-			const emoji = itemData.emoji.split(':');
-			const thumbnail = `https://cdn.discordapp.com/emojis/${emoji[2].replace('>', '')}.${emoji[0] === '<a' ? 'gif' : 'png'}`;
+		function set() {
+			embeds = [];
+			client.config.craftData.forEach((craftData) => {
+				const itemData = client.config.itemsData.find((x) => x.name.replace(/ /gi, '').includes(craftData.name.replace(/ /gi, '')));
+				const emoji = itemData.emoji.split(':');
+				const thumbnail = `https://cdn.discordapp.com/emojis/${emoji[2].replace('>', '')}.${emoji[0] === '<a' ? 'gif' : 'png'}`;
 
-			const neededItems = [];
+				const neededItems = [];
 
-			let requiredItemsString = '';
-			const array2 = [];
+				let requiredItemsString = '';
+				const array2 = [];
 
-			craftData.neededItems.forEach((item) => {
-				Object.keys(item).forEach((e) => {
-					const whereIsTheItem = Object.keys(data.Backpack).filter(x => data.Backpack[x][e] !== undefined);
-					neededItems.push([e, data.Backpack[whereIsTheItem[0]][e], item[e]]);
+				craftData.neededItems.forEach((item) => {
+					Object.keys(item).forEach((e) => {
+						const whereIsTheItem = Object.keys(data.Backpack).filter(x => data.Backpack[x][e] !== undefined);
+						neededItems.push([e, data.Backpack[whereIsTheItem[0]][e], item[e]]);
+					});
 				});
+
+				neededItems.forEach((item) => {
+					const itemData2 = client.config.itemsData.find((x) => x.name.replace(/ /gi, '') === item[0]);
+
+					array2.push([itemData2, item[1], item[2] ]);
+
+					let name = item[0];
+
+					if(item[1] >= item[2]) name = `**${name}**`;
+
+					requiredItemsString += `${itemData2.emoji} \`[${item[1]}/${item[2]}]\` ${name}\n`;
+				});
+				requiredItemsString += `${client.config.coinEmoji} \`[${data.Coins}/${craftData.Coins}]\` ${craftData.Coins <= data.Coins ? '**Coins**' : 'Coins'}`;
+				embeds.push([array2, { title: craftData.name, description: `${craftData.description}\n${requiredItemsString}`, color: client.utils.randomHex(), thumbnail:  { url: thumbnail } }]);
 			});
-
-			neededItems.forEach((item) => {
-				const itemData2 = this.client.config.itemsData.find((x) => x.name.replace(/ /gi, '') === item[0]);
-
-				array2.push([itemData2, item[1], item[2] ]);
-
-				let name = item[0];
-
-				if(item[1] >= item[2]) name = `**${name}**`;
-
-				requiredItemsString += `${itemData2.emoji} \`[${item[1]}/${item[2]}]\` ${name}\n`;
-			});
-			requiredItemsString += `${this.client.config.coinEmoji} \`[${data.Coins}/${craftData.Coins}]\` ${craftData.Coins <= data.Coins ? '**Coins**' : 'Coins'}`;
-			embeds.push([array2, { title: craftData.name, description: `${craftData.description}\n${requiredItemsString}`, color: this.client.utils.randomHex(), thumbnail:  { url: thumbnail } }]);
-		});
-
+		}
+		set();
 		embeds[0][1].footer = { text: `1/${embeds.length}` };
 
 		await interaction.acknowledge();
@@ -72,17 +81,17 @@ module.exports = class PingInteraction extends InteractionBase {
 		});
 
 		collector.on('collect', async button => {
-			if(!['left', 'craft1', 'right'].includes(button.data.custom_id)) return;
+			if(!Object.values(customIds).includes(button.data.custom_id)) return;
 			if(button.acknowledged === false) await button.acknowledge();
 			// SET
-			if(button.data.custom_id === 'left') i--;
-			if(button.data.custom_id === 'right') i++;
+			if(button.data.custom_id === customIds.left) i--;
+			if(button.data.custom_id === customIds.right) i++;
 			if(i !== 0) componentsArray[0].components[0].disabled = false;
 			if(i === 0) componentsArray[0].components[0].disabled = true;
 			if(i === embeds.length - 1) componentsArray[0].components[2].disabled = true;
 			if(i !== embeds.length - 1) componentsArray[0].components[2].disabled = false;
 
-			if(button.data.custom_id === 'craft1') {
+			if(button.data.custom_id === customIds.craft) {
 				let success = false;
 				const itemname = embeds[i][1].title.replace(/ /gi, '');
 				const whereIsTheItem1 = Object.keys(data.Backpack).filter(x => data.Backpack[x][itemname] !== undefined);
@@ -91,12 +100,14 @@ module.exports = class PingInteraction extends InteractionBase {
 
 				if(itemInfoCraft.Coins > data.Coins) return interaction.createFollowup({ content: 'Insufficient coins.', flags: 64 });
 
-				embeds[i][0].forEach(async (e) => {
+				let transactionEnded = 0;
 
+				embeds[i][0].forEach(async (e) => {
+					transactionEnded++;
 					const whereIsTheItem2 = Object.keys(data.Backpack).filter(x => data.Backpack[x][e[0].name.replace(/ /gi, '')] !== undefined);
 
 					if(e[1] >= e[2]) {
-						data.Coins -= itemInfoCraft.Coins;
+						if(transactionEnded === embeds[i][0].length) data.Coins -= itemInfoCraft.Coins;
 						data.Backpack[whereIsTheItem2[0]][e[0].name.replace(/ /gi, '')] -= e[2];
 						success = true;
 
@@ -120,6 +131,7 @@ module.exports = class PingInteraction extends InteractionBase {
 					await this.client.db.forceUpdate({ UserId: button.member.user.id }, data, require('../../Schemas/Users'));
 				}
 			}
+			set();
 			embeds[i][1].footer = { text: `${i + 1}/${embeds.length}` };
 
 			interaction.editOriginalMessage({ embed: embeds[i][1], components: componentsArray });

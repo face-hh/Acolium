@@ -78,6 +78,8 @@ module.exports = class PingInteraction extends InteractionBase {
 			ctx.drawImage(assets.heart, 29, 26, 162, 162);
 			ctx.drawImage(assets.heart, 1286, 26, 162, 162);
 
+			if(gameEnded === true) gameData[1].HP <= 0 ? gameData[1].HP = 0 : gameData[0].HP = 0;
+
 			ctx.font = '150px "Minecraft"';
 			ctx.fillStyle = 'red';
 			ctx.fillText(gameData2[0].HP, 210, 170);
@@ -167,7 +169,7 @@ module.exports = class PingInteraction extends InteractionBase {
 					client.db.forceUpdate({ UserId: interaction.member.id }, data, require('../../Schemas/Users'));
 				}
 				gameEnded = true;
-				string += `[END] This game has ended! The winner is ${gameData[1].HP <= 0 ? 'WizWiz (+1 ' + randomEnemy.essence + ' | ' + '+1 Duck Tape' + ')' : gameData[1].NAME}.`;
+				string += `[END] This game has ended!\n[END] The winner is ${gameData[1].HP <= 0 ? 'WizWiz\n[END](+1 ' + randomEnemy.essence + ' | ' + '+1 Duck Tape' + ')' : gameData[1].NAME}.`;
 				collector.stopListening('end');
 
 				disableButtons();
@@ -184,8 +186,8 @@ module.exports = class PingInteraction extends InteractionBase {
 
 				gameData[1].turn = false;
 				gameData[0].turn = true;
-				componentsArray[0].components[0].disabled = false;
-				componentsArray[0].components[1].disabled = false;
+				if(gameEnded === false) componentsArray[0].components[0].disabled = false;
+				if(gameEnded === false) componentsArray[0].components[1].disabled = false;
 				messageObject.embeds[0].description = string + '```';
 
 				interaction.editOriginalMessage(messageObject, { name: 'file.png', file: dababy(gameData) });
