@@ -7,6 +7,6 @@ module.exports = class extends Event {
 		});
 	}
 	async run(guild) {
-		this.client.getRESTChannel('934187656873644042').createMessage(`Left **${guild.name}** with **${guild.memberCount}** members!`);
+		this.client.createMessage('934187656873644042', `Left **${guild.name}** with **${guild.memberCount}** members!`);
 	}
 };
