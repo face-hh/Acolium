@@ -6,7 +6,7 @@ module.exports = class PingInteraction extends InteractionBase {
 			name: 'profile',
 			description: 'See your profile!',
 			options: [
-				{ name: 'user', type: 6, description: 'You want to see a profile of a user in particular?'}
+				{ name: 'user', type: 6, description: 'You want to see a profile of a user in particular?' },
 			],
 			cooldown: 6000,
 		});
@@ -16,20 +16,21 @@ module.exports = class PingInteraction extends InteractionBase {
    * @param {Client} client
    */
 	async run(interaction) {
-		const user = interaction.data.options === undefined ? interaction.member : await this.client.getRESTUser(interaction.data.options[0].value)
+		const user = interaction.data.options === undefined ? interaction.member : await this.client.getRESTUser(interaction.data.options[0].value);
 		const data = await this.client.db.findUser(user.id);
 		const topCommands = this.client.utils.topCommonElementsInArray(data.Statistics.CommandsUsed);
+		const timestamp = Math.round(data.Statistics.RegisteredAt / 1000);
 
 		// Achievements.
 		let achievements = '';
 
 		// Getting the array of keys from data.Achievements || Mapping them by using the key, if the value of the achievement is true, add it's emoji.
-		Object.keys(data.Achievements).map(key => { if(data.Achievements[key] === true) achievements += this.client.config.achievements[key].emoji; });
+		Object.keys(data.Achievements).map(key => { if (data.Achievements[key] === true) achievements += this.client.config.achievements[key].emoji; });
 
 		const embed = {
 			fields: [
 				{ inline: true, name: 'Achievements', value: achievements === '' ? 'None lsoer' : achievements },
-				{ inline: true, name: 'Playing since', value: `<t:${Math.round(data.Statistics.RegisteredAt / 1000)}> (<t:${Math.round(data.Statistics.RegisteredAt / 1000)}:R>)` },
+				{ inline: true, name: 'Playing since', value: `<t:${timestamp}> (<t:${timestamp}:R>)` },
 				{ inline: true, name: 'XP', value: this.client.utils.emojifiedPercentage(data.Statistics.XP / (data.Statistics.LEVEL * 100) * 100) },
 				{ inline: true, name: 'Level', value: data.Statistics.LEVEL },
 				{ inline: true, name: '\u200b', value: '\u200b' },

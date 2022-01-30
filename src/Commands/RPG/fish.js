@@ -32,8 +32,9 @@ module.exports = class PingInteraction extends InteractionBase {
 
 		const embed = {
 			title: 'You went to fish and found...',
-			description: `[\`${fish.tier}\`] You found a **${emoji} ${fish.prize}**.`,
+			description: `${this.client.config.arrowEmoji} \`[TIER]:\` ${fish.tier}\n${this.client.config.arrowEmoji} \`[NAME]:\` **${emoji} ${fish.prize}**.`,
 			color: fish.color,
+			thumbnail: { url: interaction.member.user.dynamicAvatarURL('png') },
 		};
 
 		data.Backpack.Fishes[fish.prize.replace(/ /gi, '')]++;

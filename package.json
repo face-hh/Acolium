@@ -19,7 +19,7 @@
 		"canvas": "^2.8.0",
 		"dotenv": "^10.0.0",
 		"eris": "git+https://face-hh@github.com/face-hh/eris.git",
-		"eslint": "^8.6.0",
+		"eslint": "^8.8.0",
 		"glob": "^7.2.0",
 		"mongoose": "^6.0.14",
 		"ms": "^2.1.3"

@@ -1,7 +1,7 @@
 module.exports = {
 	prefix: process.env.PREFIX,
 	developers: process.env.DEVELOPERS,
-	devMode: false,
+	devMode: true,
 	token: undefined,
 
 	craftData: [
@@ -38,6 +38,7 @@ module.exports = {
 		{ name: 'Earth Essence', price: null, type: 'ESSENCE', emoji: '<a:earth_essence:928965926924193803>' },
 	],
 	coinEmoji: '<:bot_coin:928639227921571850>',
+	arrowEmoji: '<:arrow_bot:928663052138733579>',
 
 	cooldowns: {
 		achievements: 6000,
