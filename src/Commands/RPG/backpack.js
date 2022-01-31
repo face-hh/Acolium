@@ -36,10 +36,10 @@ module.exports = class PingInteraction extends InteractionBase {
 
 		}
 
-		Object.keys(this.client.utils.filterTheItems(data.Backpack.Fishes)).forEach((key) => embed1.description += `[\`${data.Backpack.Fishes[key].toLocaleString()}\`] **${findItemInfo(key).emoji} ${key}**\n_ _   <:arrow_bot:928663052138733579> Type: \`${findItemInfo(key).type}\`\n`);
-		Object.keys(this.client.utils.filterTheItems(data.Backpack.Animals)).forEach((key) => embed2.description += `[\`${data.Backpack.Animals[key].toLocaleString()}\`] **${findItemInfo(key).emoji} ${key}**\n_ _   <:arrow_bot:928663052138733579> Type: \`${findItemInfo(key).type}\`\n`);
-		Object.keys(this.client.utils.filterTheItems(data.Backpack.Essences)).forEach((key) => embed3.description += `[\`${data.Backpack.Essences[key].toLocaleString()}\`] **${findItemInfo(key).emoji} ${key}**\n_ _   <:arrow_bot:928663052138733579> Type: \`${findItemInfo(key).type}\`\n`);
-		Object.keys(this.client.utils.filterTheItems(data.Backpack.Craftable)).forEach((key) => embed4.description += `[\`${data.Backpack.Craftable[key].toLocaleString()}\`] **${findItemInfo(key).emoji} ${key}**\n_ _   <:arrow_bot:928663052138733579> Type: \`${findItemInfo(key).type}\`\n`);
+		Object.keys(this.client.utils.filterTheItems(data.Backpack.Fishes)).forEach((key) => embed1.description += `[\`${data.Backpack.Fishes[key].toLocaleString()}\`] **${findItemInfo(key).emoji} ${key}**\n_ _   ${this.client.config.arrowEmoji} Type: \`${findItemInfo(key).type}\`\n`);
+		Object.keys(this.client.utils.filterTheItems(data.Backpack.Animals)).forEach((key) => embed2.description += `[\`${data.Backpack.Animals[key].toLocaleString()}\`] **${findItemInfo(key).emoji} ${key}**\n_ _   ${this.client.config.arrowEmoji} Type: \`${findItemInfo(key).type}\`\n`);
+		Object.keys(this.client.utils.filterTheItems(data.Backpack.Essences)).forEach((key) => embed3.description += `[\`${data.Backpack.Essences[key].toLocaleString()}\`] **${findItemInfo(key).emoji} ${key}**\n_ _   ${this.client.config.arrowEmoji} Type: \`${findItemInfo(key).type}\`\n`);
+		Object.keys(this.client.utils.filterTheItems(data.Backpack.Craftable)).forEach((key) => embed4.description += `[\`${data.Backpack.Craftable[key].toLocaleString()}\`] **${findItemInfo(key).emoji} ${key}**\n_ _  ${this.client.config.arrowEmoji} Type: \`${findItemInfo(key).type}\`\n`);
 
 		const mappedIds = {
 			'Fishes': embed1,

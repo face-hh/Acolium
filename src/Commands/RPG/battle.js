@@ -127,19 +127,21 @@ module.exports = class PingInteraction extends InteractionBase {
 		});
 
 		function attack(who1, who2, index) {
+			if(gameEnded === true) return;
+
 			// let's bully that enemy >:)
 			const max = who1 === randomEnemy.name ? 20 : 50;
 			const amount = Math.floor(Math.random() * max) + 2;
 			const randomChanceToMiss = Math.floor(Math.random() * 100);
 
 			if(randomChanceToMiss <= 15) {
-				if(gameEnded === true) return;
-				string += `[ATTACK] ${who1} attacks ${who2} for ${amount} HP.\n[DODGE] ${who2} dodges the previous attack.\n`;
+				string += `[MISS] ${who1} attacks ${who2} for ${amount} HP.\n`;
 			}
 			else {
 				gameData[index].HP -= amount - gameData[index].shield;
 				gameData[index].shield = 0;
-				if(gameEnded === true) return;
+				if(gameData[index].HP <= 0) gameData[index].HP = 0;
+
 				string += `[ATTACK] ${who1} attacks ${who2} for ${amount} HP.\n`;
 			}
 		}

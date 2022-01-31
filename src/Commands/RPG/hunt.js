@@ -32,9 +32,10 @@ module.exports = class PingInteraction extends InteractionBase {
 		}
 
 		const embed = {
-			title: 'You went to hunt and found...',
-			description: `[\`${hunt.tier}\`] You found a **${emoji} ${hunt.prize}**.`,
+			title: 'You went to fish and found...',
+			description: `\u200b\n[\`${hunt.tier}\`] You found a **${hunt.prize}**.`,
 			color: hunt.color,
+			thumbnail: { url: `https://cdn.discordapp.com/emojis/${emoji.replace(/\D/g, '')}.png` },
 		};
 
 		data.Backpack.Animals[hunt.prize]++;

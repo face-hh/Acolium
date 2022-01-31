@@ -117,7 +117,7 @@ module.exports = class Utilities {
 
 	fish(data) {
 		const randomChance = Math.floor(Math.random() * 100) + 1;
-		const maxChanceOfTreasure = data.Backpack.Craftable.WaterPurifier > 0 ? 7 : 2;
+		const maxChanceOfTreasure = data.Backpack.Craftable.WaterPurifier > 0 ? 5 : 2;
 
 		const prizes = [
 			{ min: 1, max: maxChanceOfTreasure, color: 0xffff00, tier: 'LEGENDARY', prize: 'Treasure' },
