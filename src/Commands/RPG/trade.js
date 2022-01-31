@@ -19,6 +19,9 @@ module.exports = class PingInteraction extends InteractionBase {
    */
 	async run(interaction) {
 		await interaction.acknowledge();
+
+		if(interaction.data.options[0].value === interaction.member.id) return interaction.createFollowup({ content: 'No silly! You cam\'t trade with yourself, get a friend!', flags: 64 });
+
 		const data = await this.client.db.findUser(interaction.member.id);
 		const data2 = await this.client.db.findUser(interaction.data.options[0].value);
 		const options = interaction.data.options;
@@ -100,6 +103,7 @@ module.exports = class PingInteraction extends InteractionBase {
 			if (item === undefined) throw new TypeError('hi i am here to break your mood');
 
 			return str.replace(/coins/gi, 'Coins')
+				.replace(/coin/gi, 'Coins')
 				.replace(/ /gi, '')
 				.replace(/all/gi, str.includes('Coins') ? String(data.Coins) : String(dat.Backpack[whereIsTheIte[0]][item.name.replace(/ /gi, '')]))
 				.replace(/half/gi, str.includes('Coins') ? String(data.Coins) : String(dat.Backpack[whereIsTheIte[0]][item.name.replace(/ /gi, '')]) / 2)

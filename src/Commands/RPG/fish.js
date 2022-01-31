@@ -19,7 +19,6 @@ module.exports = class PingInteraction extends InteractionBase {
 		const fish = this.client.utils.fish(data);
 		const emoji = this.client.config.itemsData.find((x) => x.name === fish.prize).emoji;
 
-
 		if(data.Coins < 60) return interaction.createFollowup('You need 60 coins to run this command!');
 
 		const achieved = await this.client.db.addAchievement('ACH6', interaction, this.client);
@@ -32,9 +31,9 @@ module.exports = class PingInteraction extends InteractionBase {
 
 		const embed = {
 			title: 'You went to fish and found...',
-			description: `${this.client.config.arrowEmoji} \`[TIER]:\` ${fish.tier}\n${this.client.config.arrowEmoji} \`[NAME]:\` **${emoji} ${fish.prize}**.`,
+			description: `\u200b\n[\`${fish.tier}\`] You found a **${fish.prize}**.`,
 			color: fish.color,
-			thumbnail: { url: interaction.member.user.dynamicAvatarURL('png') },
+			thumbnail: { url: `https://cdn.discordapp.com/emojis/${emoji.replace(/\D/g, '')}.png` },
 		};
 
 		data.Backpack.Fishes[fish.prize.replace(/ /gi, '')]++;
