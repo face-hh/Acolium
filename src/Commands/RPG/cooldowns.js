@@ -21,7 +21,6 @@ module.exports = class PingInteraction extends InteractionBase {
 			':green_square:',
 		];
 
-		const i = 0;
 		let map = '';
 
 		Object.keys(this.client.config.cooldowns).forEach((command) => {

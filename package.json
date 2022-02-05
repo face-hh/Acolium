@@ -8,6 +8,11 @@
 		"start": "set DEBUG=* & node src/index.js",
 		"lint": "./node_modules/.bin/eslint src/index.js"
 	},
+	"standard": {
+		"ignore": [
+		  "**/node_modules/**"
+		]
+	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
