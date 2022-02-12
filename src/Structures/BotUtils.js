@@ -82,6 +82,20 @@ module.exports = class Utilities {
 		else return '<:bar_start_full:927529245239029851><:bar_mid_full:927529245029335081><:bar_mid_full:927529245029335081><:bar_mid_full:927529245029335081><:bar_end_full:927529245243211776>';
 	}
 
+	ms(ms) {
+		const s = 1000;
+		const m = s * 60;
+		const h = m * 60;
+		const d = h * 24;
+
+		const msAbs = Math.abs(ms);
+		if (msAbs >= d) return Math.round(ms / d) + 'd';
+		if (msAbs >= h) return Math.round(ms / h) + 'h';
+		if (msAbs >= m) return Math.round(ms / m) + 'm';
+		if (msAbs >= s) return Math.round(ms / s) + 's';
+		return ms + 'ms';
+	}
+
 	randomHex() {
 		return Math.floor(Math.random() * (0xffffff + 1));
 	}
@@ -140,6 +154,10 @@ module.exports = class Utilities {
 		}
 
 		return { prize, tier, color };
+	}
+
+	async generateBattleLoot(data){
+		
 	}
 
 	filterTheItems(data) {

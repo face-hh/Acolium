@@ -37,7 +37,7 @@ module.exports = class PingInteraction extends InteractionBase {
 			.replace(/all/gi, String(data.Backpack[whereIsTheItem[0]][databaseItemName]))
 			.replace(/half/gi, String(data.Backpack[whereIsTheItem[0]][databaseItemName] / 2));
 
-		if(isNaN(amount) === true) amount = '1';
+		if(isNaN(amount) === true || amount <= 0) amount = '1';
 
 		amount = parseInt(amount);
 

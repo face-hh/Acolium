@@ -5,6 +5,9 @@ module.exports = class PingInteraction extends InteractionBase {
 		super(...args, {
 			name: 'backpack',
 			description: 'See what you got there!',
+			options: [
+				{ name: 'user', type: 6, description: 'Whose backpack do you wanna see?' },
+			],
 			cooldown: 6000,
 		});
 	}
@@ -13,7 +16,8 @@ module.exports = class PingInteraction extends InteractionBase {
    * @param {Client} client
    */
 	async run(interaction) {
-		const data = await this.client.db.findUser(interaction.member.id);
+		const user = interaction.data.options === undefined ? interaction.member : await this.client.getRESTUser(interaction.data.options[0].value);
+		const data = await this.client.db.findUser(user.id);
 		const client = this.client;
 
 		const componentsArray = [{
@@ -54,7 +58,7 @@ module.exports = class PingInteraction extends InteractionBase {
 			client: this.client,
 			interaction: interaction,
 			componentType: 2,
-			filter: (user) => user.member.user.id === interaction.member.user.id,
+			filter: (u) => u.member.user.id === interaction.member.user.id,
 		});
 
 		collector.on('collect', async button => {
