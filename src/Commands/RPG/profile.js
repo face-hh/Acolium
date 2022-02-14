@@ -44,7 +44,6 @@ module.exports = class PingInteraction extends InteractionBase {
 
 		};
 
-		await interaction.acknowledge();
 		interaction.createFollowup({ embed: embed });
 	}
 };

@@ -43,7 +43,7 @@ module.exports = class PingInteraction extends InteractionBase {
 
 		// AUTHOR
 
-		if (options[1].value.toLowerCase().replace(/[0-9]/g, '').replace(/ /gi, '') !== 'coins') {
+		if (!['coins', 'coin'].includes(options[1].value.toLowerCase().replace(/[0-9]/g, '').replace(/ /gi, ''))) {
 			try {
 				const customFound = customFind(itemsData, options[1].value.toLowerCase().replace(/[0-9]/g, '').replace(/ /gi, ''));
 
@@ -63,7 +63,7 @@ module.exports = class PingInteraction extends InteractionBase {
 		itemAuthor.amount = options[1].value.match(/\d+/) === null ? 1 : options[1].value.match(/\d+/)[0];
 
 		// USER
-		if (options[2].value.toLowerCase().replace(/[0-9]/g, '').replace(/ /gi, '') !== 'coins') {
+		if (!['coins', 'coin'].includes(options[2].value.toLowerCase().replace(/[0-9]/g, '').replace(/ /gi, ''))) {
 			try {
 				const customFound = customFind(itemsData, options[2].value.toLowerCase().replace(/[0-9]/g, '').replace(/ /gi, ''));
 
@@ -136,7 +136,6 @@ module.exports = class PingInteraction extends InteractionBase {
 			let ended = false;
 
 			collector.on('collect', async button => {
-				await button.acknowledge();
 
 				lockButtons();
 				if (button.data.custom_id === customIds.accept) {

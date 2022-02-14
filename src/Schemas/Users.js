@@ -16,6 +16,11 @@ const Users = new Schema({
 			LightningEssence: { type: Number, default: 0 },
 			WaterEssence: { type: Number, default: 0 },
 		},
+		Useable: {
+			CupidArrow: { type: Number, default: 0 },
+			CommonChest: { type: Number, default: 0 },
+			UncommonChest: { type: Number, default: 0 },
+		},
 		Craftable: {
 			DuckTape: { type: Number, default: 0 },
 			Scope: { type: Number, default: 0 },

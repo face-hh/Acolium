@@ -156,8 +156,13 @@ module.exports = class Utilities {
 		return { prize, tier, color };
 	}
 
-	async generateBattleLoot(data){
-		
+	async generateBattleLoot(data, randomEnemy) {
+		data.Backpack.Essences[randomEnemy.essence]++;
+		if(Math.floor(Math.random() * 100) <= 70) data.Backpack.Craftable.DuckTape++;
+		if(Math.floor(Math.random() * 100) <= 20) data.Backpack.Useable.CommonChest++;
+		if(Math.floor(Math.random() * 100) <= 10) data.Backpack.Useable.UncommonChest++;
+
+		return data;
 	}
 
 	filterTheItems(data) {

@@ -16,7 +16,7 @@ module.exports = class PingInteraction extends InteractionBase {
    * @param {Client} client
    */
 	async run(interaction) {
-		await interaction.acknowledge();
+
 
 		const Canvas = require('canvas');
 

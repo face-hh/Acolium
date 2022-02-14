@@ -37,7 +37,6 @@ module.exports = class PingInteraction extends InteractionBase {
 			color: this.client.utils.randomHex(),
 		};
 
-		await interaction.acknowledge();
 		interaction.createFollowup({ embed: embed });
 	}
 };

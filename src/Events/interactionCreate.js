@@ -27,6 +27,7 @@ module.exports = class extends Event {
 				await timestamps.set(interaction.member.user.id, Date.now());
 				setTimeout(async () => await timestamps.delete(interaction.member.user.id), this.client.config.cooldowns[command.name]);
 
+				if(!interaction.acknowledged) await interaction.acknowledge().catch(() => {});
 				if(!interaction.options) return await command.run(interaction, this.client);
 
 

@@ -14,12 +14,12 @@ module.exports = class PingInteraction extends InteractionBase {
    */
 	async run(interaction) {
 		const data = await this.client.db.findUser(interaction.member.user.id);
-		await interaction.acknowledge();
+
 
 		const client = this.client;
 		const randomEnemy = { name: 'Billy', hp: 530 };
 		const Canvas = require('canvas');
 
-		require('../../Custom/battle')(Canvas, randomEnemy, interaction, client, data);
+		require('../../Custom/battle')(Canvas, randomEnemy, interaction, client, data, { Backpack: { Useable: { CupidArrow: 0 } } });
 	}
 };

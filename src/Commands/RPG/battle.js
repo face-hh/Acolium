@@ -17,7 +17,7 @@ module.exports = class PingInteraction extends InteractionBase {
    */
 	async run(interaction) {
 		const data = await this.client.db.findUser(interaction.member.user.id);
-		await interaction.acknowledge();
+
 
 		const randomEnemy =
 		interaction.data.options
@@ -25,6 +25,9 @@ module.exports = class PingInteraction extends InteractionBase {
 			: this.client.config.mobs[Math.floor(Math.random() * this.client.config.mobs.length)];
 		const Canvas = require('canvas');
 
-		require('../../Custom/battle')(Canvas, randomEnemy, interaction, this.client, data);
+		require('../../Custom/battle')(Canvas, randomEnemy, interaction, this.client, data, interaction.data.options
+			? await this.client.db.findUser(interaction.data.options[0].value)
+			: { Backpack: { Useable: { CupidArrow: 0 } },
+			});
 	}
 };

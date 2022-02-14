@@ -1,4 +1,4 @@
-module.exports = async (Canvas, randomEnemy, interaction, client, data) => {
+module.exports = async (Canvas, randomEnemy, interaction, client, data, data2) => {
 	const assets = {
 		background: await Canvas.loadImage('src/Assets/background.png'),
 		wizwiz: await Canvas.loadImage('src/Assets/wizwiz.png'),
@@ -8,14 +8,15 @@ module.exports = async (Canvas, randomEnemy, interaction, client, data) => {
 		blue_heart: await Canvas.loadImage('src/Assets/blue_heart.png'),
 	};
 	const gameData = [
-		{ NAME: interaction.member.user.username.slice(0, 11), HP: 100, turn: true, shield: 0, id: interaction.member.user.id },
-		{ NAME: randomEnemy.name.slice(0, 11), HP: randomEnemy.hp, turn: false, shield: 0, id: randomEnemy.id },
+		{ NAME: interaction.member.user.username.slice(0, 11), HP: 100, turn: true, shield: 0, id: interaction.member.user.id, stunned: 0 },
+		{ NAME: randomEnemy.name.slice(0, 11), HP: randomEnemy.hp, turn: false, shield: 0, id: randomEnemy.id, stunned: 0 },
 	];
 	let string = '```cs\n[START] The battle starts. [PAGE #1]\n';
 
 	const idsData = {
 		attack: String(Math.random()),
 		defend: String(Math.random()),
+		arrow: String(Math.random()),
 	};
 
 	const componentsArray = [
@@ -28,8 +29,11 @@ module.exports = async (Canvas, randomEnemy, interaction, client, data) => {
 		},
 	];
 
+	if(data.Backpack.Useable.CupidArrow > 0) componentsArray[0].components.push({ type: 2, label: 'Use cupid arrow', custom_id: idsData.arrow, emoji: { id: '942415806329921566' }, style: 3 });
+
 	let gameEnded = false;
 	let pages = 1;
+	let stunnedUsed = 0;
 
 	const messageObject = {
 		components: componentsArray,
@@ -105,12 +109,19 @@ module.exports = async (Canvas, randomEnemy, interaction, client, data) => {
 		if(!whoClicked) return;
 		if(!Object.values(idsData).includes(button.data.custom_id)) return;
 		if(whoClicked.turn === false) return;
-		if(button.acknowledged === false) await button.acknowledge();
 
-		gameData.find((x) => x.turn === true).turn = false;
-		gameData.find((x) => x.turn === false).turn = true;
+		if(data.Backpack.Useable.CupidArrow > 0 && !componentsArray[0].components[2]) componentsArray[0].components.push({ type: 2, label: 'Use cupid arrow', custom_id: idsData.arrow, emoji: { id: '942415806329921566' }, style: 3 });
 
 		const index = whoClicked.NAME === randomEnemy.name ? 1 : 0;
+
+		if(button.data.custom_id === idsData.arrow) {
+			stunnedUsed++;
+			gameData[Math.abs(index - 1)].stunned += 3;
+			string += `[POTION] ${whoClicked.NAME} shot a Cupid Arrow.\n`;
+			messageObject.embeds[0].description = string + '```';
+		}
+		gameData.find((x) => x.turn === true).turn = false;
+		gameData.find((x) => x.turn === false).turn = true;
 
 		if(button.data.custom_id === idsData.attack) attack(whoClicked.NAME);
 		else if(button.data.custom_id === idsData.defend) defend(whoClicked.NAME);
@@ -119,11 +130,17 @@ module.exports = async (Canvas, randomEnemy, interaction, client, data) => {
 		messageObject.embeds[0].description = string + '```';
 
 		if(!randomEnemy.isPlayer) {
-			disableButtons(true);
+			if(gameData[Math.abs(index - 1)].stunned === 0) disableButtons(true);
 			interaction.editOriginalMessage(messageObject, { name: 'file.png', file: dababy(gameData) });
 		}
 
-		await update(index);
+		if(gameData[Math.abs(index - 1)].stunned !== 0) {
+			gameData[Math.abs(index - 1)].stunned--;
+			string += `[STUNNED] ${gameData[Math.abs(index - 1)].NAME} fallen in love for you. (${gameData[Math.abs(index - 1)].stunned})\n`;
+			messageObject.embeds[0].description = string + '```';
+			interaction.editOriginalMessage(messageObject, { name: 'file.png', file: dababy(gameData) });
+		}
+		else {await update(index);}
 		await checkForWin();
 	});
 
@@ -173,6 +190,7 @@ module.exports = async (Canvas, randomEnemy, interaction, client, data) => {
 	function disableButtons(bool) {
 		componentsArray[0].components[0].disabled = bool;
 		componentsArray[0].components[1].disabled = bool;
+		if(componentsArray[0].components[2]) componentsArray[0].components[2].disabled = bool;
 	}
 
 	async function checkForWin() {
@@ -181,9 +199,8 @@ module.exports = async (Canvas, randomEnemy, interaction, client, data) => {
 
 			if(!randomEnemy.isPlayer && wonByWho.NAME === interaction.member.user.username) {
 				data.Achievements = (await client.db.addAchievement('ACH5', interaction, client)).Achievements;
-				await client.utils.generateBattleLoot(data);
-				// data.Backpack.Essences[randomEnemy.essence]++;
-				// data.Backpack.Craftable.DuckTape++;
+				data = await client.utils.generateBattleLoot(data, randomEnemy);
+
 				client.db.forceUpdate({ UserId: interaction.member.id }, data, require('../Schemas/Users'));
 			}
 			gameEnded = true;
@@ -201,8 +218,8 @@ module.exports = async (Canvas, randomEnemy, interaction, client, data) => {
 			setTimeout(() => {
 				const random = Math.floor(Math.random() * 100);
 
-				if(random <= 30) defend(gameData[1].NAME, 1);
-				else attack(gameData[1].NAME, 'WizWiz', 0);
+				if(random <= 30) defend(gameData[1].NAME);
+				else attack(gameData[1].NAME);
 
 				gameData[1].turn = false;
 				gameData[0].turn = true;
@@ -222,6 +239,11 @@ module.exports = async (Canvas, randomEnemy, interaction, client, data) => {
 			}
 			else {componentsArray[0].components[0].emoji = { id: '927567553721684038' };}
 
+			if(componentsArray[0].components[2]) {
+				if(data.Backpack.Useable.CupidArrow <= 0 && gameData[who].id === interaction.member.user.id) componentsArray[0].components.splice(2, 1);
+				if(data2.Backpack.Useable.CupidArrow <= 0 && gameData[Math.abs(who - 1)].id !== interaction.member.user.id) componentsArray[0].components.splice(2, 1);
+				if(stunnedUsed === 2) componentsArray[0].components[2].disabled = true;
+			}
 			messageObject.embeds[0].description = string + '```';
 
 			interaction.editOriginalMessage(messageObject, { name: 'file.png', file: dababy(gameData) });
