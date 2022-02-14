@@ -70,7 +70,6 @@ module.exports = class PingInteraction extends InteractionBase {
 		set();
 		embeds[0][1].footer = { text: `1/${embeds.length}` };
 
-		await interaction.acknowledge();
 		interaction.createFollowup({ embed: embeds[0][1], components: componentsArray });
 
 		const collector = await this.client.utils.createInteractionCollector({
@@ -82,7 +81,6 @@ module.exports = class PingInteraction extends InteractionBase {
 
 		collector.on('collect', async button => {
 			if(!Object.values(customIds).includes(button.data.custom_id)) return;
-			if(button.acknowledged === false) await button.acknowledge();
 			// SET
 			if(button.data.custom_id === customIds.left) i--;
 			if(button.data.custom_id === customIds.right) i++;

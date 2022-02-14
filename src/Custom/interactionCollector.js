@@ -23,6 +23,7 @@ class InteractionHandler extends EventEmitter {
 
 	checkPreConditions(interaction) {
 		if (this.options.filter(interaction)) {
+			if(!interaction.acknowledged) interaction.acknowledge().catch(() => {});
 			if(this.componentType === interaction.data.component_type) this.emit('collect', interaction);
 			this.collected.push({ interaction });
 

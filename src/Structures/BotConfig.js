@@ -1,7 +1,7 @@
 module.exports = {
 	prefix: process.env.PREFIX,
 	developers: process.env.DEVELOPERS,
-	devMode: false,
+	devMode: true,
 	token: undefined,
 
 	craftData: [
@@ -36,9 +36,25 @@ module.exports = {
 		{ name: 'Lightning Essence', price: null, type: 'ESSENCE', rarity: 'Uncommon', emoji: '<a:lightning_essence:928980091462111242>' },
 		{ name: 'Wind Essence', price: 1000, type: 'ESSENCE', rarity: 'Uncommon', emoji: '<a:wind_essence:928965965918638121>' },
 		{ name: 'Earth Essence', price: null, type: 'ESSENCE', rarity: 'Uncommon', emoji: '<a:earth_essence:928965926924193803>' },
+		// USABLE
+		{ name: 'Cupid Arrow', price: 5000, type: 'POWERUP', rarity: 'Rare', emoji: '<a:e:942415806329921566>' },
+		{ name: 'Common Chest', price: 2500, type: 'POWERUP', rarity: 'Common', emoji: '<a:e:942802954635862026>', chest: [
+			{ min: 100, max: 100, prize: 'Coins', rand: 1200 },
+			{ min: 80, max: 100, prize: 'Garbage', rand: 4 },
+			{ min: 60, max: 80, prize: 'Sand', rand: 3 },
+			{ min: 30, max: 60, prize: 'DuckTape', rand: 2 },
+			{ min: 10, max: 30, prize: 'Scope', rand: 1 },
+		] },
+		{ name: 'Uncommon Chest', price: 4000, type: 'POWERUP', rarity: 'Uncommon', emoji: '<a:e:942802967508180993>', chest: [
+			{ min: 100, max: 100, prize: 'Coins', rand: 1200 },
+			{ min: 80, max: 100, prize: 'Wind Essence', rand: 4 },
+			{ min: 60, max: 80, prize: 'Fire Essence', rand: 3 },
+			{ min: 30, max: 60, prize: 'Glass', rand: 2 },
+			{ min: 10, max: 30, prize: 'Water Purifier', rand: 1 },
+		] },
 	],
 	coinEmoji: '<:bot_coin:928639227921571850>',
-	arrowEmoji: '<:arrow_bot:928663052138733579>',
+	arrowEmoji: '╰─',
 
 	cooldowns: {
 		achievements: 6000,
@@ -54,6 +70,7 @@ module.exports = {
 		sell: 6000,
 		stats: 6000,
 		trade: 6000,
+		chest: 16000,
 	},
 	achievements: {
 		ACH1: { emoji: '<:getin2craft:929974698572382228>', name: 'Gettin\' on gear', description: 'Craft your first item!' },

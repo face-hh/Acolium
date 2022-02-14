@@ -16,11 +16,13 @@ module.exports = class PingInteraction extends InteractionBase {
    * @param {Client} client
    */
 	async run(interaction) {
-		await interaction.acknowledge();
+
 
 		const Canvas = require('canvas');
 
 		const info = this.client.config.itemsData.find((x) => x.name.replace(/ /gi, '').toLowerCase() === interaction.data.options[0].value.replace(/ /gi, '').toLowerCase());
+
+		if(!info) return interaction.createFollowup({ content: 'Invalid item specified!' });
 		const assets = {
 			background: await Canvas.loadImage('src/Assets/scroll_dex.png'),
 			item: await Canvas.loadImage(`https://cdn.discordapp.com/emojis/${info.emoji.replace(/\D/g, '')}.png`),

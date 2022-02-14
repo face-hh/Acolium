@@ -6,7 +6,7 @@ module.exports = class PingInteraction extends InteractionBase {
 			name: 'profile',
 			description: 'See your profile!',
 			options: [
-				{ name: 'user', type: 6, description: 'You want to see a profile of a user in particular?' },
+				{ name: 'user', type: 6, description: 'Whose profile do you wanna see?' },
 			],
 			cooldown: 6000,
 		});
@@ -44,7 +44,6 @@ module.exports = class PingInteraction extends InteractionBase {
 
 		};
 
-		await interaction.acknowledge();
 		interaction.createFollowup({ embed: embed });
 	}
 };

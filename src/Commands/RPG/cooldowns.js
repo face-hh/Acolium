@@ -1,5 +1,4 @@
 const InteractionBase = require('../../Structures/CommandBase');
-const ms = require('ms');
 
 module.exports = class PingInteraction extends InteractionBase {
 	constructor(...args) {
@@ -14,21 +13,20 @@ module.exports = class PingInteraction extends InteractionBase {
    * @param {Client} client
    */
 	async run(interaction) {
-		await interaction.acknowledge();
 
 		const arr = [
 			':red_square:',
 			':green_square:',
 		];
+		const client = this.client;
 
-		const i = 0;
 		let map = '';
 
 		Object.keys(this.client.config.cooldowns).forEach((command) => {
 			const cooldown = this.client.cooldowns.get(command);
 
 			if(cooldown.has(interaction.member.id)) {
-				map += `${arr[0]} **${command}**: Will be ready in \`${ms((cooldown.get(interaction.member.id) + this.client.config.cooldowns[command]) - Date.now())}\`\n`;
+				map += `${arr[0]} **${command}**: Will be ready in \`${client.utils.ms((cooldown.get(interaction.member.id) + this.client.config.cooldowns[command]) - Date.now())}\`\n`;
 			}
 			else {
 				map += `${arr[1]} **${command}**.\n`;

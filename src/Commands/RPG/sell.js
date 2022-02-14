@@ -17,7 +17,6 @@ module.exports = class PingInteraction extends InteractionBase {
    * @param {Client} client
    */
 	async run(interaction) {
-		await interaction.acknowledge();
 
 		const data = await this.client.db.findUser(interaction.member.id);
 		const options = interaction.data.options;
@@ -37,7 +36,7 @@ module.exports = class PingInteraction extends InteractionBase {
 			.replace(/all/gi, String(data.Backpack[whereIsTheItem[0]][databaseItemName]))
 			.replace(/half/gi, String(data.Backpack[whereIsTheItem[0]][databaseItemName] / 2));
 
-		if(isNaN(amount) === true) amount = '1';
+		if(isNaN(amount) === true || amount <= 0) amount = '1';
 
 		amount = parseInt(amount);
 

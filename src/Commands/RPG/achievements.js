@@ -5,6 +5,9 @@ module.exports = class PingInteraction extends InteractionBase {
 		super(...args, {
 			name: 'achievements',
 			description: 'See the achievements you achieved and how many left!',
+			options: [
+				{ name: 'user', type: 6, description: 'Whose achievements do you wanna see?' },
+			],
 			cooldown: 6000,
 		});
 	}
@@ -13,7 +16,8 @@ module.exports = class PingInteraction extends InteractionBase {
    * @param {Client} client
    */
 	async run(interaction) {
-		const data = await this.client.db.findUser(interaction.member.id);
+		const user = interaction.data.options === undefined ? interaction.member : await this.client.getRESTUser(interaction.data.options[0].value);
+		const data = await this.client.db.findUser(user.id);
 
 		// Achievements.
 		const achievements = [];
@@ -33,7 +37,6 @@ module.exports = class PingInteraction extends InteractionBase {
 			color: this.client.utils.randomHex(),
 		};
 
-		await interaction.acknowledge();
 		interaction.createFollowup({ embed: embed });
 	}
 };

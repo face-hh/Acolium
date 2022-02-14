@@ -13,7 +13,6 @@ module.exports = class PingInteraction extends InteractionBase {
    * @param {Client} client
    */
 	async run(interaction) {
-		await interaction.acknowledge();
 
 		const data = await this.client.db.findUser(interaction.member.id);
 		const hunt = this.client.utils.hunt(data);
