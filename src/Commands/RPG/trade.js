@@ -164,7 +164,9 @@ module.exports = class PingInteraction extends InteractionBase {
 		if (where2 < itemUser.amount) return interaction.createFollowup(`${user.username} doesn't have that many items!`);
 
 		await confirmation(async () => {
-			console.log(specifiedItemData.name, specifiedItemData2.name)
+			console.log(data.Backpack[whereIsTheItem[0]][specifiedItemData.name.replace(/ /gi, '')])
+			console.log(data2.Backpack[whereIsTheItem2[0]][specifiedItemData2.name.replace(/ /gi, '')])
+			console.log(itemAuthor.item, itemUser.item)
 			itemAuthor.item === 'Coins' ? data.Coins -= itemAuthor.amount : data.Backpack[whereIsTheItem[0]][specifiedItemData.name.replace(/ /gi, '')] -= itemAuthor.amount;
 			itemUser.item === 'Coins' ? data2.Coins += itemUser.amount : data2.Backpack[whereIsTheItem2[0]][specifiedItemData2.name.replace(/ /gi, '')] += itemUser.amount;
 
