@@ -167,8 +167,8 @@ module.exports = class PingInteraction extends InteractionBase {
 			itemAuthor.item === 'Coins' ? data.Coins -= itemAuthor.amount : data.Backpack[whereIsTheItem[0]][specifiedItemData.name.replace(/ /gi, '')] -= itemAuthor.amount;
 			itemUser.item === 'Coins' ? data2.Coins -= itemUser.amount : data2.Backpack[whereIsTheItem2[0]][specifiedItemData2.name.replace(/ /gi, '')] -= itemUser.amount;
 
-			itemAuthor.item === 'Coins' ? data.Coins += itemUser.amount : data.Backpack[whereIsTheItem[0]][specifiedItemData.name.replace(/ /gi, '')] += itemUser.amount;
-			itemUser.item === 'Coins' ? data2.Coins -= itemAuthor.amount : data2.Backpack[whereIsTheItem2[0]][specifiedItemData2.name.replace(/ /gi, '')] += itemAuthor.amount;
+			itemUser.item === 'Coins' ? data.Coins += itemUser.amount : data.Backpack[whereIsTheItem[0]][specifiedItemData.name.replace(/ /gi, '')] += itemUser.amount;
+			itemAuthor.item === 'Coins' ? data2.Coins -= itemAuthor.amount : data2.Backpack[whereIsTheItem2[0]][specifiedItemData2.name.replace(/ /gi, '')] += itemAuthor.amount;
 
 			await this.client.db.forceUpdate({ UserId: interaction.member.id }, data, require('../../Schemas/Users'));
 			await this.client.db.forceUpdate({ UserId: user.id }, data2, require('../../Schemas/Users'));
