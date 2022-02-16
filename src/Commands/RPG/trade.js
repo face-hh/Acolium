@@ -18,8 +18,6 @@ module.exports = class PingInteraction extends InteractionBase {
    * @param {Client} client
    */
 	async run(interaction) {
-		await interaction.acknowledge();
-
 		if(interaction.data.options[0].value === interaction.member.id) return interaction.createFollowup({ content: 'No silly! You cam\'t trade with yourself, get a friend!', flags: 64 });
 
 		const data = await this.client.db.findUser(interaction.member.id);
