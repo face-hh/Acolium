@@ -87,8 +87,6 @@ module.exports = class PingInteraction extends InteractionBase {
 		if (specifiedItemData === undefined && itemAuthor.item === 'Coins') specifiedItemData = { emoji: this.client.config.coinEmoji, name: 'Coins' };
 		if (specifiedItemData2 === undefined && itemUser.item === 'Coins') specifiedItemData2 = { emoji: this.client.config.coinEmoji, name: 'Coins' };
 
-		const databaseItemName = specifiedItemData.name.replace(/ /gi, '');
-		const databaseItemName2 = specifiedItemData2.name.replace(/ /gi, '');
 		const whereIsTheItem = Object.keys(data.Backpack).filter(x => data.Backpack[x][databaseItemName] !== undefined);
 		const whereIsTheItem2 = Object.keys(data2.Backpack).filter(x => data2.Backpack[x][databaseItemName2] !== undefined);
 
@@ -163,11 +161,10 @@ module.exports = class PingInteraction extends InteractionBase {
 		if (where2 < itemUser.amount) return interaction.createFollowup(`${user.username} doesn't have that many items!`);
 
 		await confirmation(async () => {
-			console.log(itemAuthor, itemUser)
-			itemAuthor.item === 'Coins' ? data.Coins -= itemAuthor.amount : data.Backpack[whereIsTheItem[0]][databaseItemName] -= itemAuthor.amount;
-			itemUser.item === 'Coins' ? data2.Coins += itemUser.amount : data2.Backpack[whereIsTheItem2[0]][databaseItemName2] += itemUser.amount;
+			console.log(specifiedItemData.name, specifiedItemData2.name)
+			itemAuthor.item === 'Coins' ? data.Coins -= itemAuthor.amount : data.Backpack[whereIsTheItem[0]][specifiedItemData.name.replace(/ /gi, '')] -= itemAuthor.amount;
+			itemUser.item === 'Coins' ? data2.Coins += itemUser.amount : data2.Backpack[whereIsTheItem2[0]][specifiedItemData2.name.replace(/ /gi, '')] += itemUser.amount;
 
-			console.log(data,data2);
 			await this.client.db.forceUpdate({ UserId: interaction.member.id }, data, require('../../Schemas/Users'));
 			await this.client.db.forceUpdate({ UserId: user.id }, data2, require('../../Schemas/Users'));
 
