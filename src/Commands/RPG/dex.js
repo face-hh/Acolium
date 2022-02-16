@@ -25,7 +25,7 @@ module.exports = class PingInteraction extends InteractionBase {
 		if(!info) return interaction.createFollowup({ content: 'Invalid item specified!' });
 		const assets = {
 			background: await Canvas.loadImage('src/Assets/scroll_dex.png'),
-			item: await Canvas.loadImage(`https://cdn.discordapp.com/emojis/${info.emoji.replace(/\D/g, '')}.png`),
+			item: await Canvas.loadImage(`https://cdn.discordapp.com/emojis/${info.emoji.replace(/\D/g, '').replace(/</gi, '')}.png`),
 		};
 
 		const canvas = Canvas.createCanvas(700, 700);
