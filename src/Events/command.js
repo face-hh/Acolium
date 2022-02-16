@@ -52,8 +52,7 @@ module.exports = class extends Event {
 			});
 
 			collector.on('collect', async int => {
-				if(!int.acknowledged) await int.acknowledge().catch(() => {});
-
+				if(ended === false) return;
 				if(int.data.custom_id !== id) return;
 
 				data.Backpack.Useable.CupidArrow++;
