@@ -87,6 +87,9 @@ module.exports = class PingInteraction extends InteractionBase {
 		if (specifiedItemData === undefined && itemAuthor.item === 'Coins') specifiedItemData = { emoji: this.client.config.coinEmoji, name: 'Coins' };
 		if (specifiedItemData2 === undefined && itemUser.item === 'Coins') specifiedItemData2 = { emoji: this.client.config.coinEmoji, name: 'Coins' };
 
+		const databaseItemName = specifiedItemData.name.replace(/ /gi, '');
+		const databaseItemName2 = specifiedItemData2.name.replace(/ /gi, '');
+
 		const whereIsTheItem = Object.keys(data.Backpack).filter(x => data.Backpack[x][databaseItemName] !== undefined);
 		const whereIsTheItem2 = Object.keys(data2.Backpack).filter(x => data2.Backpack[x][databaseItemName2] !== undefined);
 
