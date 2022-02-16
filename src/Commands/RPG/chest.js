@@ -26,7 +26,7 @@ module.exports = class PingInteraction extends InteractionBase {
 		if(!itemData) return interaction.createFollowup({ content: 'Couldn\'t find this rarity..?' });
 
 		const whereIsTheItem = Object.keys(data.Backpack).filter(x => data.Backpack[x][itemData.name.replace(/ /gi, '')] !== undefined);
-
+console.log(whereIsTheItem)
 		if(whereIsTheItem <= 0) return interaction.createFollowup('You don\'t have that item!');
 
 		let string = '';
