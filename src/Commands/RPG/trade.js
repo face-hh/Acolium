@@ -152,7 +152,7 @@ module.exports = class PingInteraction extends InteractionBase {
 					interaction.editOriginalMessage({ content: `\`${user.username}\` didn't respond.`, components: componentsArray });
 					collector.stopListening('end');
 				}
-			}, 2000);
+			}, 10000);
 		}
 
 		function lockButtons() {
