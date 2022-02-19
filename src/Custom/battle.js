@@ -29,7 +29,7 @@ module.exports = async (Canvas, randomEnemy, interaction, client, data, data2) =
 		},
 	];
 
-	if(data.Backpack.Useable.CupidArrow > 0) componentsArray[0].components.push({ type: 2, label: 'Use cupid arrow', custom_id: idsData.arrow, emoji: { id: '942415806329921566' }, style: 3 });
+	if (data.Backpack.Useable.CupidArrow > 0) componentsArray[0].components.push({ type: 2, label: 'Use cupid arrow', custom_id: idsData.arrow, emoji: { id: '942415806329921566' }, style: 3 });
 
 	let gameEnded = false;
 	let pages = 1;
@@ -68,27 +68,27 @@ module.exports = async (Canvas, randomEnemy, interaction, client, data, data2) =
 		ctx.drawImage(assets.heart, 29, 26, 162, 162);
 		ctx.drawImage(assets.blue_heart, 1286, 26, 162, 162);
 
-		if(gameEnded === true) gameData[1].HP <= 0 ? gameData[1].HP = 0 : gameData[0].HP = 0;
+		if (gameEnded === true) gameData[1].HP <= 0 ? gameData[1].HP = 0 : gameData[0].HP = 0;
 
 		ctx.font = '150px "Minecraft"';
 		ctx.fillStyle = 'red';
 		ctx.fillText(gameData2[0].HP, 210, 170);
 		ctx.fillText(gameData2[1].HP, 1470, 170);
 
-		if(randomEnemy.isPlayer === true) {
+		if (randomEnemy.isPlayer === true) {
 			ctx.scale(-1, 1);
 			ctx.drawImage(assets.wizwiz, -1810, 210, 424, 424);
 		}
-		else {ctx.drawImage(assets.enemy, 1163, 172, 848, 485);}
+		else { ctx.drawImage(assets.enemy, 1163, 172, 848, 485); }
 
 		return canvas.toBuffer();
 	}
 	interaction.createFollowup(messageObject, { name: 'file.png', file: dababy(gameData) });
 
 	const filter = (user) => {
-		if(randomEnemy.isPlayer === true) {
+		if (randomEnemy.isPlayer === true) {
 			return user.member.user.id === interaction.member.user.id
-			|| user.member.user.id === randomEnemy.id;
+				|| user.member.user.id === randomEnemy.id;
 		}
 		else {
 			return user.member.user.id === interaction.member.user.id;
@@ -102,19 +102,19 @@ module.exports = async (Canvas, randomEnemy, interaction, client, data, data2) =
 	});
 
 	collector.on('collect', async (button) => {
-		if(gameEnded === true) return;
+		if (gameEnded === true) return;
 
 		const whoClicked = gameData.find((x) => x.id === button.member.user.id);
 
-		if(!whoClicked) return;
-		if(!Object.values(idsData).includes(button.data.custom_id)) return;
-		if(whoClicked.turn === false) return;
+		if (!whoClicked) return;
+		if (!Object.values(idsData).includes(button.data.custom_id)) return;
+		if (whoClicked.turn === false) return;
 
-		if(data.Backpack.Useable.CupidArrow > 0 && !componentsArray[0].components[2]) componentsArray[0].components.push({ type: 2, label: 'Use cupid arrow', custom_id: idsData.arrow, emoji: { id: '942415806329921566' }, style: 3 });
+		if (data.Backpack.Useable.CupidArrow > 0 && !componentsArray[0].components[2]) componentsArray[0].components.push({ type: 2, label: 'Use cupid arrow', custom_id: idsData.arrow, emoji: { id: '942415806329921566' }, style: 3 });
 
 		const index = whoClicked.NAME === randomEnemy.name ? 1 : 0;
 
-		if(button.data.custom_id === idsData.arrow) {
+		if (button.data.custom_id === idsData.arrow) {
 			stunnedUsed++;
 			gameData[Math.abs(index - 1)].stunned += 3;
 			string += `[POTION] ${whoClicked.NAME} shot a Cupid Arrow.\n`;
@@ -123,42 +123,42 @@ module.exports = async (Canvas, randomEnemy, interaction, client, data, data2) =
 		gameData.find((x) => x.turn === true).turn = false;
 		gameData.find((x) => x.turn === false).turn = true;
 
-		if(button.data.custom_id === idsData.attack) attack(whoClicked.NAME);
-		else if(button.data.custom_id === idsData.defend) defend(whoClicked.NAME);
+		if (button.data.custom_id === idsData.attack) attack(whoClicked.NAME);
+		else if (button.data.custom_id === idsData.defend) defend(whoClicked.NAME);
 
 		checkForTooLong();
 		messageObject.embeds[0].description = string + '```';
 
-		if(!randomEnemy.isPlayer) {
-			if(gameData[Math.abs(index - 1)].stunned === 0) disableButtons(true);
+		if (!randomEnemy.isPlayer) {
+			if (gameData[Math.abs(index - 1)].stunned === 0) disableButtons(true);
 			interaction.editOriginalMessage(messageObject, { name: 'file.png', file: dababy(gameData) });
 		}
 
-		if(gameData[Math.abs(index - 1)].stunned !== 0) {
+		if (gameData[Math.abs(index - 1)].stunned !== 0) {
 			gameData[Math.abs(index - 1)].stunned--;
 			string += `[STUNNED] ${gameData[Math.abs(index - 1)].NAME} fallen in love for you. (${gameData[Math.abs(index - 1)].stunned})\n`;
 			messageObject.embeds[0].description = string + '```';
 			interaction.editOriginalMessage(messageObject, { name: 'file.png', file: dababy(gameData) });
 		}
-		else {await update(index);}
+		else { await update(index); }
 		await checkForWin();
 	});
 
 	client.on('command', (interact) => {
-		if(interact.member.user.id === interaction.member.user.id) {
+		if (interact.member.user.id === interaction.member.user.id) {
 			client.removeListener('command', () => '');
 			return collector.stopListening('end');
 		}
 	});
 
 	function checkForTooLong() {
-		if(string.split('\n').length > 10) {
+		if (string.split('\n').length > 10) {
 			pages++;
 			string = `\`\`\`cs\n[START] The battle starts. [PAGE #${pages}]\n`;
 		}
 	}
 	function attack(who1) {
-		if(gameEnded === true) return;
+		if (gameEnded === true) return;
 
 		const max = 50;
 		const who2 = who1 === randomEnemy.name ? gameData[0].NAME : gameData[1].NAME;
@@ -166,13 +166,13 @@ module.exports = async (Canvas, randomEnemy, interaction, client, data, data2) =
 		const amount = Math.floor(Math.random() * max) + 2;
 		const randomChanceToMiss = Math.floor(Math.random() * 100);
 
-		if(randomChanceToMiss <= 15) {
+		if (randomChanceToMiss <= 15) {
 			string += `[MISS] ${who1} attacks ${who2} for ${amount} HP.\n`;
 		}
 		else {
 			gameData[index].HP -= amount - gameData[index].shield;
 			gameData[index].shield = 0;
-			if(gameData[index].HP <= 0) gameData[index].HP = 0;
+			if (gameData[index].HP <= 0) gameData[index].HP = 0;
 
 			string += `[ATTACK] ${who1} attacks ${who2} for ${amount} HP.\n`;
 		}
@@ -180,53 +180,55 @@ module.exports = async (Canvas, randomEnemy, interaction, client, data, data2) =
 
 	function defend(who1) {
 		const amount = Math.floor(Math.random() * 15) + 2;
-		const index = who1 === randomEnemy.name ? 0 : 1;
+		const index = who1 === randomEnemy.name ? 1 : 0;
 
 		gameData[index].shield += amount;
-		if(gameEnded === true) return;
+		if (gameEnded === true) return;
 		string += `[DEFEND] ${who1} defends next attack for ${amount} HP.\n`;
 	}
 
-	function disableButtons(bool) {
+	function disableButtons(bool = true) {
 		componentsArray[0].components[0].disabled = bool;
 		componentsArray[0].components[1].disabled = bool;
-		if(componentsArray[0].components[2]) componentsArray[0].components[2].disabled = bool;
+		if (componentsArray[0].components[2]) componentsArray[0].components[2].disabled = bool;
 	}
 
 	async function checkForWin() {
-		if(gameData[1].HP <= 0 || gameData[0].HP <= 0) {
+		if (gameData[1].HP <= 0 || gameData[0].HP <= 0) {
 			const wonByWho = gameData[1].HP <= 0 ? gameData[0] : gameData[1];
 
-			if(!randomEnemy.isPlayer && wonByWho.NAME === interaction.member.user.username) {
-				data.Achievements = (await client.db.addAchievement('ACH5', interaction, client)).Achievements;
-				data = await client.utils.generateBattleLoot(data, randomEnemy);
-
-				client.db.forceUpdate({ UserId: interaction.member.id }, data, require('../Schemas/Users'));
-			}
 			gameEnded = true;
 			string += `[END] This game has ended!\n[END] The winner is ${wonByWho.NAME}.`;
 			collector.stopListening('end');
 
-			messageObject.embeds[0].description = string + '```';
+			if (!randomEnemy.isPlayer && wonByWho.NAME === interaction.member.user.username) {
+				const loot = await client.utils.generateBattleLoot(data, randomEnemy);
+				data = loot.data;
+				data.Achievements = (await client.db.addAchievement('ACH5', interaction, client)).Achievements;
+
+				string += `\`\`\`${loot.str}`;
+				client.db.forceUpdate({ UserId: interaction.member.id }, data, require('../Schemas/Users'));
+			}
+			messageObject.embeds[0].description = string;
 			disableButtons();
 			interaction.editOriginalMessage(messageObject, { name: 'file.png', file: dababy(gameData) });
 		}
 	}
 
 	async function update(who) {
-		if(!randomEnemy.isPlayer) {
+		if (!randomEnemy.isPlayer) {
 			setTimeout(() => {
 				const random = Math.floor(Math.random() * 100);
 
-				if(random <= 30) defend(gameData[1].NAME);
+				if (random <= 30) defend(gameData[1].NAME);
 				else attack(gameData[1].NAME);
 
 				gameData[1].turn = false;
 				gameData[0].turn = true;
-				if(gameEnded === false) disableButtons(false);
-				messageObject.embeds[0].description = string + '```';
+				if (gameEnded === false) disableButtons(false);
+				if (gameEnded === false) messageObject.embeds[0].description = string + '```';
 
-				interaction.editOriginalMessage(messageObject, { name: 'file.png', file: dababy(gameData) });
+				if (gameEnded === false) interaction.editOriginalMessage(messageObject, { name: 'file.png', file: dababy(gameData) });
 
 				return '';
 			}, 3000);
@@ -234,15 +236,15 @@ module.exports = async (Canvas, randomEnemy, interaction, client, data, data2) =
 		else {
 			gameData[who].turn = false;
 			gameData[Math.abs(who - 1)].turn = true;
-			if(Math.abs(who - 1) === 1) {
+			if (Math.abs(who - 1) === 1) {
 				componentsArray[0].components[0].emoji = { id: '942016115624796190' };
 			}
-			else {componentsArray[0].components[0].emoji = { id: '927567553721684038' };}
+			else { componentsArray[0].components[0].emoji = { id: '927567553721684038' }; }
 
-			if(componentsArray[0].components[2]) {
-				if(data.Backpack.Useable.CupidArrow <= 0 && gameData[who].id === interaction.member.user.id) componentsArray[0].components.splice(2, 1);
-				if(data2.Backpack.Useable.CupidArrow <= 0 && gameData[Math.abs(who - 1)].id !== interaction.member.user.id) componentsArray[0].components.splice(2, 1);
-				if(stunnedUsed === 2) componentsArray[0].components[2].disabled = true;
+			if (componentsArray[0].components[2]) {
+				if (data.Backpack.Useable.CupidArrow <= 0 && gameData[who].id === interaction.member.user.id) componentsArray[0].components.splice(2, 1);
+				if (data2.Backpack.Useable.CupidArrow <= 0 && gameData[Math.abs(who - 1)].id !== interaction.member.user.id) componentsArray[0].components.splice(2, 1);
+				if (stunnedUsed === 2) componentsArray[0].components[2].disabled = true;
 			}
 			messageObject.embeds[0].description = string + '```';
 

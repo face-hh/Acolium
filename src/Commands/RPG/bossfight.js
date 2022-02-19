@@ -15,7 +15,6 @@ module.exports = class PingInteraction extends InteractionBase {
 	async run(interaction) {
 		const data = await this.client.db.findUser(interaction.member.user.id);
 
-
 		const client = this.client;
 		const randomEnemy = { name: 'Billy', hp: 530 };
 		const Canvas = require('canvas');

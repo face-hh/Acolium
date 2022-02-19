@@ -52,7 +52,7 @@ module.exports = class extends Event {
 			});
 
 			collector.on('collect', async int => {
-				if(ended === false) return;
+				if(ended === true) return;
 				if(int.data.custom_id !== id) return;
 
 				data.Backpack.Useable.CupidArrow++;

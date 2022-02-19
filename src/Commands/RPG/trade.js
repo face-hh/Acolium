@@ -58,7 +58,7 @@ module.exports = class PingInteraction extends InteractionBase {
 			itemAuthor.item = 'Coins';
 		}
 		itemAuthor.item.charAt(0).toUpperCase() + itemAuthor.item.slice(1);
-		itemAuthor.amount = options[1].value.match(/\d+/) === null ? 1 : options[1].value.match(/\d+/)[0];
+		itemAuthor.amount = parseInt(options[1].value.match(/\d+/) === null ? 1 : options[1].value.match(/\d+/)[0]);
 
 		// USER
 		if (!['coins', 'coin'].includes(options[2].value.toLowerCase().replace(/[0-9]/g, '').replace(/ /gi, ''))) {
@@ -76,7 +76,7 @@ module.exports = class PingInteraction extends InteractionBase {
 			itemUser.item = 'Coins';
 		}
 		itemUser.item.charAt(0).toUpperCase() + itemUser.item.slice(1);
-		itemUser.amount = options[2].value.match(/\d+/) === null ? 1 : options[2].value.match(/\d+/)[0];
+		itemUser.amount = parseInt(options[2].value.match(/\d+/) === null ? 1 : options[2].value.match(/\d+/)[0]);
 
 		let specifiedItemData = itemsData.find((x) => x.name.toLowerCase().replace(/ /gi, '') === itemAuthor.item.toLowerCase());
 		let specifiedItemData2 = itemsData.find((x) => x.name.toLowerCase().replace(/ /gi, '') === itemUser.item.toLowerCase());
@@ -164,13 +164,31 @@ module.exports = class PingInteraction extends InteractionBase {
 		if (where2 < itemUser.amount) return interaction.createFollowup(`${user.username} doesn't have that many items!`);
 
 		await confirmation(async () => {
-			itemAuthor.item === 'Coins' ? data.Coins -= itemAuthor.amount : data.Backpack[whereIsTheItem[0]][specifiedItemData.name.replace(/ /gi, '')] -= parseInt(itemAuthor.amount);
-			itemUser.item === 'Coins' ? data2.Coins -= itemUser.amount : data2.Backpack[whereIsTheItem2[0]][specifiedItemData2.name.replace(/ /gi, '')] -= parseInt(itemUser.amount);
+			// trade user: face you: 1 coin he: 1 common chest
+			// itemUser: commonchest
+			// itemAuthor: coins
+			console.log(itemUser.item, itemAuthor.item)
+			if(itemAuthor.item === 'Coins') {
+				console.log(`Removed ${itemAuthor.amount} coins from user1 | Added ${itemAuthor.amount} coins to user2`)
+				data.Coins -= itemAuthor.amount;
+				data2.Coins += itemAuthor.amount;
+			}
+			else {
+				console.log(`Removed ${itemAuthor.amount} ${specifiedItemData.name} from user1 | Added ${specifiedItemData2.name} to user2`)
 
-			itemUser.item === 'Coins' ? data.Coins += itemUser.amount : data.Backpack[whereIsTheItem[0]][specifiedItemData.name.replace(/ /gi, '')] += parseInt(itemUser.amount);
-			console.log(itemAuthor.item)
-			console.log(data2.Backpack[whereIsTheItem2[0]][specifiedItemData2.name.replace(/ /gi, '')])
-			itemAuthor.item === 'Coins' ? data2.Coins -= itemAuthor.amount : data2.Backpack[whereIsTheItem2[0]][specifiedItemData2.name.replace(/ /gi, '')] += parseInt(itemAuthor.amount);
+				if(specifiedItemData.name !== 'Coins') data.Backpack[whereIsTheItem[0]][specifiedItemData.name.replace(/ /gi, '')] -= itemAuthor.amount;
+				if(specifiedItemData2.name !== 'Coins') data2.Backpack[whereIsTheItem2[0]][specifiedItemData2.name.replace(/ /gi, '')] += itemAuthor.amount;
+			}
+
+			if(itemUser.item === 'Coins') {
+				console.log(`Added ${itemAuthor.amount} coins to user1`)
+				data.Coins += itemUser.amount;
+			}
+			else {
+				console.log(specifiedItemData.name !== 'Coins')
+				data2.Backpack[whereIsTheItem2[0]][specifiedItemData2.name.replace(/ /gi, '')] -= itemUser.amount;
+				if(specifiedItemData2.name !== 'Coins') data.Backpack[whereIsTheItem2[0]][specifiedItemData2.name.replace(/ /gi, '')] += itemUser.amount;
+			}
 
 			await this.client.db.forceUpdate({ UserId: interaction.member.id }, data, require('../../Schemas/Users'));
 			await this.client.db.forceUpdate({ UserId: user.id }, data2, require('../../Schemas/Users'));

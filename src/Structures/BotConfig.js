@@ -1,7 +1,7 @@
 module.exports = {
 	prefix: process.env.PREFIX,
 	developers: process.env.DEVELOPERS,
-	devMode: false,
+	devMode: true,
 	token: undefined,
 
 	craftData: [
@@ -23,7 +23,7 @@ module.exports = {
 		{ name: 'Wolf', price: 2500, type: 'COLLECTABLE', rarity: 'Uncommon', emoji: '<:wolf_bot:928645445377458226>' },
 		{ name: 'Chicken', price: 500, type: 'COLLECTABLE', rarity: 'Common', emoji: '<:chicken_bot:928645445335539712>' },
 		// FISH
-		{ name: 'Treasure', price: 150000, type: 'COLLECTABLE', rarity: 'Legendary', emoji: '<:treasure:942117980467232788>' },
+		{ name: 'Treasure', price: 150000, type: 'COLLECTABLE', rarity: 'Legendary', emoji: '<:treasure:942117942005473320>' },
 		{ name: 'Whale', price: 25000, type: 'COLLECTABLE', rarity: 'Epic', emoji: '<:whale_bot:942115970581925948>' },
 		{ name: 'Exotic Fish', price: 5000, type: 'COLLECTABLE', rarity: 'Rare', emoji: '<:exotic_fish:942115970783264859>' },
 		{ name: 'Fish', price: 1000, type: 'COLLECTABLE', rarity: 'Uncommon', emoji: '<:fish_bot:942115970594512966>' },
