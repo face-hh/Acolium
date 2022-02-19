@@ -160,9 +160,9 @@ module.exports = class Utilities {
 		let str = '**LOOT RECEIVED:**';
 
 		data.Backpack.Essences[randomEnemy.essence]++;
-		if(Math.floor(Math.random() * 100) <= 70) data.Backpack.Craftable.DuckTape++; str += '\n<:ducktape:929320660277264385> +1 Duck Tape';
-		if(Math.floor(Math.random() * 100) <= 10) data.Backpack.Useable.CommonChest++; str += '\n<a:e:942802954635862026> + 1 Common Chest';
-		if(Math.floor(Math.random() * 100) <= 5) data.Backpack.Useable.UncommonChest++; str += '\n<a:e:942802967508180993> + 1 Uncommon Chest';
+		if(Math.floor(Math.random() * 100) <= 70) data.Backpack.Craftable.DuckTape++, str += '\n<:ducktape:929320660277264385> +1 Duck Tape';
+		if(Math.floor(Math.random() * 100) <= 10) data.Backpack.Useable.CommonChest++, str += '\n<a:e:942802954635862026> + 1 Common Chest';
+		if(Math.floor(Math.random() * 100) <= 5) data.Backpack.Useable.UncommonChest++, str += '\n<a:e:942802967508180993> + 1 Uncommon Chest';
 
 		return { data, str };
 	}
