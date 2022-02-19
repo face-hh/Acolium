@@ -164,28 +164,20 @@ module.exports = class PingInteraction extends InteractionBase {
 		if (where2 < itemUser.amount) return interaction.createFollowup(`${user.username} doesn't have that many items!`);
 
 		await confirmation(async () => {
-			// trade user: face you: 1 coin he: 1 common chest
-			// itemUser: commonchest
-			// itemAuthor: coins
-			console.log(itemUser.item, itemAuthor.item)
+
 			if(itemAuthor.item === 'Coins') {
-				console.log(`Removed ${itemAuthor.amount} coins from user1 | Added ${itemAuthor.amount} coins to user2`)
 				data.Coins -= itemAuthor.amount;
 				data2.Coins += itemAuthor.amount;
 			}
 			else {
-				console.log(`Removed ${itemAuthor.amount} ${specifiedItemData.name} from user1 | Added ${specifiedItemData2.name} to user2`)
-
 				if(specifiedItemData.name !== 'Coins') data.Backpack[whereIsTheItem[0]][specifiedItemData.name.replace(/ /gi, '')] -= itemAuthor.amount;
 				if(specifiedItemData2.name !== 'Coins') data2.Backpack[whereIsTheItem2[0]][specifiedItemData2.name.replace(/ /gi, '')] += itemAuthor.amount;
 			}
 
 			if(itemUser.item === 'Coins') {
-				console.log(`Added ${itemAuthor.amount} coins to user1`)
 				data.Coins += itemUser.amount;
 			}
 			else {
-				console.log(specifiedItemData.name !== 'Coins')
 				data2.Backpack[whereIsTheItem2[0]][specifiedItemData2.name.replace(/ /gi, '')] -= itemUser.amount;
 				if(specifiedItemData2.name !== 'Coins') data.Backpack[whereIsTheItem2[0]][specifiedItemData2.name.replace(/ /gi, '')] += itemUser.amount;
 			}
