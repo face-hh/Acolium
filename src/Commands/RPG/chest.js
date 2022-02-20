@@ -93,7 +93,7 @@ module.exports = class PingInteraction extends InteractionBase {
 			});
 
 			function checkForRemaining() {
-				if(data.Backpack[whereIsTheItem[0]][itemData.name.replace(/ /gi, '')] <= 0) {
+				if(data.Backpack[whereIsTheItem[0]][itemData.name.replace(/ /gi, '')] <= 1) {
 					componentsArray[0].components[0].disabled = true;
 					collector.stopListening('end');
 					interaction.editOriginalMessage({ embed: embed, components: componentsArray });
