@@ -194,7 +194,7 @@ module.exports = async (Canvas, randomEnemy, interaction, client, data, data2) =
 	function disableButtons(bool = true) {
 		componentsArray[0].components[0].disabled = bool;
 		componentsArray[0].components[1].disabled = bool;
-		if (componentsArray[0].components[2]) componentsArray[0].components[2].disabled = bool;
+		if (componentsArray[0].components[2] && stunnedUsed !== 2) componentsArray[0].components[2].disabled = bool;
 	}
 
 	async function checkForWin() {
