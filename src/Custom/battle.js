@@ -119,6 +119,10 @@ module.exports = async (Canvas, randomEnemy, interaction, client, data, data2) =
 			gameData[Math.abs(index - 1)].stunned += 3;
 			string += `[POTION] ${whoClicked.NAME} shot a Cupid Arrow.\n`;
 			messageObject.embeds[0].description = string + '```';
+
+			data.Backpack.Useable.CupidArrow--;
+			client.db.forceUpdate({ UserId: interaction.member.id }, data, require('../Schemas/Users'));
+
 		}
 		gameData.find((x) => x.turn === true).turn = false;
 		gameData.find((x) => x.turn === false).turn = true;
@@ -207,9 +211,10 @@ module.exports = async (Canvas, randomEnemy, interaction, client, data, data2) =
 				data.Achievements = (await client.db.addAchievement('ACH5', interaction, client)).Achievements;
 
 				string += `\`\`\`${loot.str}`;
+				messageObject.embeds[0].description = string;
 				client.db.forceUpdate({ UserId: interaction.member.id }, data, require('../Schemas/Users'));
 			}
-			messageObject.embeds[0].description = string;
+			else {messageObject.embeds[0].description = string + '```';}
 			disableButtons();
 			interaction.editOriginalMessage(messageObject, { name: 'file.png', file: dababy(gameData) });
 		}
@@ -227,7 +232,9 @@ module.exports = async (Canvas, randomEnemy, interaction, client, data, data2) =
 				gameData[0].turn = true;
 				if (gameEnded === false) disableButtons(false);
 				if (gameEnded === false) messageObject.embeds[0].description = string + '```';
-
+				if (componentsArray[0].components[2]) {
+					if (stunnedUsed === 2) componentsArray[0].components[2].disabled = true;
+				}
 				if (gameEnded === false) interaction.editOriginalMessage(messageObject, { name: 'file.png', file: dababy(gameData) });
 
 				return '';
