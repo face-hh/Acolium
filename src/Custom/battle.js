@@ -114,7 +114,7 @@ module.exports = async (Canvas, randomEnemy, interaction, client, data, data2) =
 
 		const index = whoClicked.NAME === randomEnemy.name ? 1 : 0;
 
-		if (button.data.custom_id === idsData.arrow) {
+		if(stunnedUsed !== 2 && button.data.custom_id === idsData.arrow) {
 			stunnedUsed++;
 			gameData[Math.abs(index - 1)].stunned += 3;
 			string += `[POTION] ${whoClicked.NAME} shot a Cupid Arrow.\n`;
@@ -133,8 +133,13 @@ module.exports = async (Canvas, randomEnemy, interaction, client, data, data2) =
 		checkForTooLong();
 		messageObject.embeds[0].description = string + '```';
 
-		if (!randomEnemy.isPlayer) {
-			if (gameData[Math.abs(index - 1)].stunned === 0) disableButtons(true);
+		if(!randomEnemy.isPlayer) {
+			if(componentsArray[0].components[2]) {
+				if(data.Backpack.Useable.CupidArrow <= 0 && gameData[index].id === interaction.member.user.id) componentsArray[0].components.splice(2, 1);
+				if(stunnedUsed === 2) componentsArray[0].components[2].disabled = true;
+			}
+			if(gameData[Math.abs(index - 1)].stunned === 0) disableButtons(true);
+
 			interaction.editOriginalMessage(messageObject, { name: 'file.png', file: dababy(gameData) });
 		}
 
@@ -215,7 +220,8 @@ module.exports = async (Canvas, randomEnemy, interaction, client, data, data2) =
 				client.db.forceUpdate({ UserId: interaction.member.id }, data, require('../Schemas/Users'));
 			}
 			else {messageObject.embeds[0].description = string + '```';}
-			disableButtons();
+			disableButtons(true);
+
 			interaction.editOriginalMessage(messageObject, { name: 'file.png', file: dababy(gameData) });
 		}
 	}
@@ -230,12 +236,11 @@ module.exports = async (Canvas, randomEnemy, interaction, client, data, data2) =
 
 				gameData[1].turn = false;
 				gameData[0].turn = true;
-				if (gameEnded === false) disableButtons(false);
-				if (gameEnded === false) messageObject.embeds[0].description = string + '```';
-				if (componentsArray[0].components[2]) {
-					if (stunnedUsed === 2) componentsArray[0].components[2].disabled = true;
-				}
-				if (gameEnded === false) interaction.editOriginalMessage(messageObject, { name: 'file.png', file: dababy(gameData) });
+
+				if(gameEnded === false) disableButtons(false);
+				messageObject.embeds[0].description = string + '```';
+
+				interaction.editOriginalMessage(messageObject, { name: 'file.png', file: dababy(gameData) });
 
 				return '';
 			}, 3000);
