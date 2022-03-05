@@ -52,12 +52,14 @@ module.exports = class BotClient extends Client {
 				'---------------        PROPERTIES DONE          ------------------\n',
 			))
 			.catch(console.error);
-		this.utils.loadDBL()
-			.then(console.log(
-				'---------------================================------------------\n' +
+		config.devMode !== true ?
+			this.utils.loadDBL()
+				.then(console.log(
+					'---------------================================------------------\n' +
 				'---------------            DBL DONE            ------------------\n',
-			))
-			.catch(console.error);
+				))
+				.catch(console.error)
+			: '';
 		await super.connect();
 	}
 };
