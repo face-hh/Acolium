@@ -46,6 +46,32 @@ module.exports = class Utilities {
 		properties;
 	}
 
+	async loadDBL() {
+		const Webhook = require('./top.gg');
+		const webhook = new Webhook(process.env.TOPGG_PASS);
+
+		webhook.login('/topggVotes', 19387);
+		webhook.on('vote', async (x) => {
+			const data = await this.client.db.findUser(x.user);
+			const coins = x.isWeekend === true ? 2500 : 5000;
+			const lootboxes = x.isWeekend === true ? 2 : 1;
+			const user = await this.client.getRESTUser(x.user);
+
+			data.Backpack.Useable.CommonChest += lootboxes;
+			data.Coins += coins;
+			data.Votes += lootboxes;
+
+			await this.client.db.forceUpdate({ UserId: x.user }, data, require('../Schemas/Users'));
+			this.client.createMessage(await this.client.getDMChannel(x.user),
+				`Thanks for voting for me on top.gg! You received: **${this.client.config.coinEmoji} ${coins.toLocaleString()}** and **${
+					this.client.config.itemsData.find((y) => y.name === 'Common Chest').emoji
+				} ${lootboxes}**, ${x.isWeekend === true ? 'double beause it\'s weekend! T' : 't'}hanks for voting!`,
+			);
+
+			this.client.createMessage('949699134116483072', `**${user.username}** just voted for me, they are now at \`${data.Votes}\` votes!`);
+		});
+	}
+
 	/**
 	 * @param {object} options - The options needed for the collector.
 	 */

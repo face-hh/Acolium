@@ -8,6 +8,7 @@ const Users = new Schema({
 		RegisteredAt: { type: Number, default: Date.now() },
 	},
 	Coins: { type: Number, default: 5000 },
+	Votes: { type: Number, default: 0 },
 	Backpack: {
 		Essences: {
 			FireEssence: { type: Number, default: 0 },
