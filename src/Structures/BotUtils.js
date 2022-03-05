@@ -47,7 +47,7 @@ module.exports = class Utilities {
 	}
 
 	async loadDBL() {
-		const Webhook = require('./top.gg');
+		const Webhook = require('./BotDBLCore');
 		const webhook = new Webhook(process.env.TOPGG_PASS);
 
 		webhook.login('/topggVotes', 19387);
