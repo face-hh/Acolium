@@ -62,7 +62,7 @@ module.exports = class Utilities {
 			data.Votes += lootboxes;
 
 			await this.client.db.forceUpdate({ UserId: x.user }, data, require('../Schemas/Users'));
-			this.client.createMessage(await this.client.getDMChannel(x.user),
+			this.client.createMessage((await this.client.getDMChannel(x.user)).id,
 				`Thanks for voting for me on top.gg! You received: **${this.client.config.coinEmoji} ${coins.toLocaleString()}** and **${
 					this.client.config.itemsData.find((y) => y.name === 'Common Chest').emoji
 				} ${lootboxes}**, ${x.isWeekend === true ? 'double beause it\'s weekend! T' : 't'}hanks for voting!`,
