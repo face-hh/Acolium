@@ -1,6 +1,5 @@
 module.exports = {
 	prefix: process.env.PREFIX,
-	developers: process.env.DEVELOPERS,
 	devMode: false,
 	token: undefined,
 
