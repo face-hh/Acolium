@@ -1,4 +1,4 @@
-console.time();
+console.time('\x1b[32m[BOOT] \x1b[0mConnected to Discord in');
 
 require('dotenv').config();
 
