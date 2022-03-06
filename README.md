@@ -1,8 +1,9 @@
-<div align="center">
-
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
 </style>
+
+
+<div align="center">
 
 <img src="src/Assets/Acolium.png" width=100>
 <br>
