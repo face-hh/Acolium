@@ -22,7 +22,6 @@
 		"eris": "git+https://face-hh@github.com/face-hh/eris.git",
 		"eslint": "^8.9.0",
 		"glob": "^7.2.0",
-		"mongoose": "^6.0.14",
-		"top.gg-core": "^1.0.0-b"
+		"mongoose": "^6.0.14"
 	}
 }

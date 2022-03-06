@@ -1,6 +1,6 @@
 module.exports = {
 	prefix: process.env.PREFIX,
-	devMode: false,
+	devMode: true,
 	token: undefined,
 
 	craftData: [

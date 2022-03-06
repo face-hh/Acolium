@@ -53,7 +53,7 @@ module.exports = class Utilities {
 		webhook.login('/topggVotes', 19387);
 		webhook.on('vote', async (x) => {
 			const data = await this.client.db.findUser(x.user);
-			const coins = x.isWeekend === true ? 2500 : 5000;
+			const coins = x.isWeekend === true ? 5000 : 2500;
 			const lootboxes = x.isWeekend === true ? 2 : 1;
 			const user = await this.client.getRESTUser(x.user);
 
@@ -214,18 +214,7 @@ module.exports = class Utilities {
 	}
 
 	convertSecToTime(time) {
-		const seconds = time % 1000;
-		const minutes = Math.floor((time / 1000)) % 60;
-		const hours = Math.floor((time / (60 * 1000))) % 60;
-		const days = Math.floor(time / (60 * 1000 * 60 * 24));
-
-		let string = '';
-
-		if(minutes === 0) string = `${seconds}s`;
-		if(hours === 0) string = `${minutes}m ${seconds}s`;
-		if(days === 0) string = `${days}d ${minutes}m ${seconds}s`;
-
-		return string;
+		return Date.now() - (time * 1000);
 	}
 
 	topCommonElementsInArray(nums, maxResults) {

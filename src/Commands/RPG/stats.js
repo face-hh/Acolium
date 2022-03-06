@@ -30,7 +30,7 @@ module.exports = class PingInteraction extends InteractionBase {
 				fields: [
 					{ inline: true, name: 'Servers', value: `\`${serversSize}\`` },
 					{ inline: true, name: 'Members', value: `\`${usersSize}\`` },
-					{ inline: true, name: 'Uptime', value: `\`${uptime}\`` },
+					{ inline: true, name: 'Uptime', value: `<t:${Math.round(uptime / 1000)}:R>` },
 					{ inline: true, name: 'Database size', value: `\`${databaseSize}\`` },
 				],
 				color: this.client.utils.randomHex(),
