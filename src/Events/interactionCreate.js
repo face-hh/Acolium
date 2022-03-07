@@ -30,20 +30,15 @@ module.exports = class extends Event {
 				if(!interaction.acknowledged) await interaction.acknowledge().catch(() => {});
 				if(!interaction.options) return await command.run(interaction, this.client);
 
-
 				await command.run(
 					interaction,
 					interaction.options._options.map((value) => value.value),
 				);
 			}
 			catch (err) {
-				this.client.createMessage(interaction.channel.id, {
-					content: 'Something went wrong!',
-					ephemeral: true,
-				});
+				this.client.createMessage(interaction.channel.id, { content: 'Something went wrong!' });
 
-				console.error(err);
-				// console.minor(`Error catched: ${err}`);
+				this.client.devMode === true ? console.error(err) : console.minor(`Error caught: ${err}`);
 			}
 		}
 

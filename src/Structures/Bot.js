@@ -33,25 +33,22 @@ module.exports = class BotClient extends Client {
 
 	async connect() {
 		require('events').EventEmitter.defaultMaxListeners = 0;
+		await this.utils.loadEvents();
+		await this.db.loadDatabase();
+		await this.utils.loadProperties();
 
-		this.utils.loadEvents()
-			.then(console.log(
-				'---------------================================------------------\n' +
-				'---------------           EVENTS DONE          ------------------\n',
-			))
-			.catch(console.error);
-		this.db.loadDatabase()
-			.then(console.log(
-				'---------------================================------------------\n' +
-				'---------------           DATABASE DONE          ------------------\n',
-			))
-			.catch(console.error);
-		this.utils.loadProperties()
-			.then(console.log(
-				'---------------================================------------------\n' +
-				'---------------        PROPERTIES DONE          ------------------\n',
-			))
-			.catch(console.error);
+		if(config.devMode !== true) await this.utils.loadDBL();
+
 		await super.connect();
+
+		setTimeout(() => {
+			console.table([{
+				Events: true,
+				Database: true,
+				Properties: true,
+				Interactions: true,
+				DBL: config.devMode ? false : true,
+			}]);
+		}, 1000);
 	}
 };

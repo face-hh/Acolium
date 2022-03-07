@@ -41,7 +41,7 @@ module.exports = class AcoliumDatabase {
 
 			await newUser
 				.save()
-				.catch((error) => console.minor('Error catched: ' + error));
+				.catch((error) => console.minor('Error caught: ' + error));
 			return newUser;
 		}
 		else {return user;}
