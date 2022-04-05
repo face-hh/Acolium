@@ -1,11 +1,12 @@
 const InteractionBase = require('../../Structures/CommandBase');
+const Schema = require('../../Schemas/Users');
 
 module.exports = class PingInteraction extends InteractionBase {
 	constructor(...args) {
 		super(...args, {
 			name: 'bossfight',
 			description: 'Feeling ready?',
-			cooldown: 35000,
+			cooldown: 120000,
 		});
 	}
 	/**
@@ -13,7 +14,7 @@ module.exports = class PingInteraction extends InteractionBase {
    * @param {Client} client
    */
 	async run(interaction) {
-		const data = await this.client.db.findUser(interaction.member.user.id);
+		const data = await Schema.findOne({ UserId: interaction.member.id }).select('Backpack Achievements');
 
 		const client = this.client;
 		const randomEnemy = { name: 'Billy', hp: 530 };

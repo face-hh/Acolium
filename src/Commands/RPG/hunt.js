@@ -1,4 +1,5 @@
 const InteractionBase = require('../../Structures/CommandBase');
+const Schema = require('../../Schemas/Users');
 
 module.exports = class PingInteraction extends InteractionBase {
 	constructor(...args) {
@@ -14,7 +15,7 @@ module.exports = class PingInteraction extends InteractionBase {
    */
 	async run(interaction) {
 
-		const data = await this.client.db.findUser(interaction.member.id);
+		const data = await Schema.findOne({ UserId: interaction.member.id }).select('Backpack Achievements Coins');
 		const hunt = this.client.utils.hunt(data);
 		const emoji = this.client.config.itemsData.find((x) => x.name === hunt.prize).emoji;
 
@@ -22,11 +23,11 @@ module.exports = class PingInteraction extends InteractionBase {
 		if(data.Coins < 550) return interaction.createFollowup('You need 600 coins to run this command!');
 
 
-		const achieved = await this.client.db.addAchievement('ACH7', interaction, this.client);
+		const achieved = await this.client.db.addAchievement('ACH7', interaction, data, this.client);
 		data.Achievements = achieved.Achievements;
 
 		if(hunt.prize === 'Chad') {
-			const achieved2 = await this.client.db.addAchievement('ACH2', interaction, this.client);
+			const achieved2 = await this.client.db.addAchievement('ACH2', interaction, data, this.client);
 			data.Achievements = achieved2.Achievements;
 		}
 
@@ -39,7 +40,7 @@ module.exports = class PingInteraction extends InteractionBase {
 
 		data.Backpack.Animals[hunt.prize]++;
 		data.Coins -= 550;
-		this.client.db.forceUpdate({ UserId: interaction.member.id }, data, require('../../Schemas/Users'));
+		data.save();
 
 		interaction.createFollowup({ embed: embed });
 	}

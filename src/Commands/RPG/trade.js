@@ -1,4 +1,5 @@
 const InteractionBase = require('../../Structures/CommandBase');
+const Schema = require('../../Schemas/Users');
 
 module.exports = class PingInteraction extends InteractionBase {
 	constructor(...args) {
@@ -19,9 +20,8 @@ module.exports = class PingInteraction extends InteractionBase {
    */
 	async run(interaction) {
 		if(interaction.data.options[0].value === interaction.member.id) return interaction.createFollowup({ content: 'No silly! You cam\'t trade with yourself, get a friend!', flags: 64 });
-
-		const data = await this.client.db.findUser(interaction.member.id);
-		const data2 = await this.client.db.findUser(interaction.data.options[0].value);
+		const data = await Schema.findOne({ UserId: interaction.member.id }).select('Backpack Coins');
+		const data2 = await Schema.findOne({ UserId: interaction.data.options[0].value }).select('Backpack Coins');
 		const options = interaction.data.options;
 		const client = this.client;
 		const itemsData = require('../../Structures/BotConfig').itemsData;
@@ -182,8 +182,8 @@ module.exports = class PingInteraction extends InteractionBase {
 				if(specifiedItemData2.name !== 'Coins') data.Backpack[whereIsTheItem2[0]][specifiedItemData2.name.replace(/ /gi, '')] += itemUser.amount;
 			}
 
-			await this.client.db.forceUpdate({ UserId: interaction.member.id }, data, require('../../Schemas/Users'));
-			await this.client.db.forceUpdate({ UserId: user.id }, data2, require('../../Schemas/Users'));
+			data.save();
+			data2.save();
 
 			interaction.editOriginalMessage({
 				embed: {

@@ -1,4 +1,5 @@
 const InteractionBase = require('../../Structures/CommandBase');
+const Schema = require('../../Schemas/Users');
 
 module.exports = class PingInteraction extends InteractionBase {
 	constructor(...args) {
@@ -14,14 +15,14 @@ module.exports = class PingInteraction extends InteractionBase {
    */
 	async run(interaction) {
 
-		const data = await this.client.db.findUser(interaction.member.id);
+		const data = await Schema.findOne({ UserId: interaction.member.id }).select('Backpack Achievements Coins');
 		const fish = this.client.utils.fish(data);
 		const emoji = this.client.config.itemsData.find((x) => x.name === fish.prize).emoji;
 
 		if(data.Coins < 60) return interaction.createFollowup('You need 60 coins to run this command!');
 
 		const customID = String(Math.random());
-		const AOF = ['', '', '', '', '', ''].fill('🟥');
+		const AOF = ['', '', '', '', '', ''].fill('<a:water:950366761138679879>');
 		const AOA = ['', '', '', '', '', ''].fill('<:yes:950313260400386109>');
 		const componentsArray = [{ type: 1, components: [{
 			type: 2,
@@ -35,7 +36,7 @@ module.exports = class PingInteraction extends InteractionBase {
 		let gameEnded;
 		let i = 0;
 
-		AOF[indexOfFish] = emoji;
+		AOF[indexOfFish] = '<a:water_found:950369743485943848>';
 
 		interaction.createFollowup({ content: 'Loading the minigame...', flags: 64, components: componentsArray });
 
@@ -69,11 +70,11 @@ module.exports = class PingInteraction extends InteractionBase {
 			gameEnded = true;
 
 			if(AOF.indexOf(emoji) === lastIndex) {
-				const achieved = await this.client.db.addAchievement('ACH6', interaction, this.client);
+				const achieved = await this.client.db.addAchievement('ACH6', interaction, data, this.client);
 				data.Achievements = achieved.Achievements;
 
 				if(fish.prize === 'Treasure') {
-					const e = await this.client.db.addAchievement('ACH3', interaction, this.client);
+					const e = await this.client.db.addAchievement('ACH3', interaction, data, this.client);
 					data.Achievements = e.Achievements;
 				}
 
@@ -86,7 +87,7 @@ module.exports = class PingInteraction extends InteractionBase {
 
 				data.Backpack.Fishes[fish.prize.replace(/ /gi, '')]++;
 				data.Coins -= 60;
-				this.client.db.forceUpdate({ UserId: interaction.member.id }, data, require('../../Schemas/Users'));
+				data.save();
 
 				interaction.editOriginalMessage({ content: '\u200b', embed: embed, components: [] });
 			}

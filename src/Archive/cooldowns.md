@@ -5,7 +5,6 @@ module.exports = class PingInteraction extends InteractionBase {
 		super(...args, {
 			name: 'cooldowns',
 			description: 'If you ever wanna know what command is in cooldown!',
-			cooldown: 6000,
 		});
 	}
 	/**

@@ -1,11 +1,12 @@
 const InteractionBase = require('../../Structures/CommandBase');
+const Schema = require('../../Schemas/Users');
 
 module.exports = class PingInteraction extends InteractionBase {
 	constructor(...args) {
 		super(...args, {
 			name: 'craft',
 			description: 'Let\'s get advanced into gear!',
-			cooldown: 6000,
+			cooldown: 35000,
 		});
 	}
 	/**
@@ -13,7 +14,7 @@ module.exports = class PingInteraction extends InteractionBase {
    * @param {Client} client
    */
 	async run(interaction) {
-		const data = await this.client.db.findUser(interaction.member.id);
+		const data = await Schema.findOne({ UserId: interaction.member.id }).select('Backpack Coins');
 
 		let i = 0;
 
@@ -109,7 +110,7 @@ module.exports = class PingInteraction extends InteractionBase {
 						data.Backpack[whereIsTheItem2[0]][e[0].name.replace(/ /gi, '')] -= e[2];
 						success = true;
 
-						await this.client.db.forceUpdate({ UserId: button.member.user.id }, data, require('../../Schemas/Users'));
+						data.save();
 					}
 					else {success = false;}
 				});
@@ -123,10 +124,10 @@ module.exports = class PingInteraction extends InteractionBase {
 					interaction.createFollowup({ content: `Successfully crafted **x1 ${itemInfo.emoji} ${embeds[i][1].title}**.`, ephemeral: true });
 
 
-					const achieved = await this.client.db.addAchievement('ACH1', interaction, this.client);
+					const achieved = await this.client.db.addAchievement('ACH1', interaction, data, this.client);
 					data.Achievements = achieved.Achievements;
 
-					await this.client.db.forceUpdate({ UserId: button.member.user.id }, data, require('../../Schemas/Users'));
+					data.save();
 				}
 			}
 			set();

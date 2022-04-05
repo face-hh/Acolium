@@ -23,54 +23,13 @@ module.exports = class AcoliumDatabase {
 		});
 
 		database.connection.on('disconnected', () => {
-			console.small('MongoDB connection is disconnected.');
+			console.fatal('MongoDB connection is disconnected.');
 		});
 	}
 
-	/**
-    * @param {string} userId - Id of the User.
-    */
-	async findUser(userId) {
-		if (!userId) return console.fatal('Argument missing: userId (index 0).');
+	/** Let's take a moment to commemorate the dumb findUser function. */
 
-		const user = await User.findOne({ UserId: userId });
-		if (!user) {
-			const newUser = new User({ UserId: userId });
-
-			delete newUser.UserId_1;
-
-			await newUser
-				.save()
-				.catch((error) => console.minor('Error caught: ' + error));
-			return newUser;
-		}
-		else {return user;}
-	}
-	/**
-	 * @param {string} query - The secified query.
-	 * @param {string} data - The modified data.
-	 * @param {string} schema - The specified schema.
-	*/
-	async forceUpdate(query, data, schema) {
-		if (!query) return console.fatal('Argument missing: query (index 0).');
-		if (!data) return console.fatal('Argument missing: data (index 1).');
-		if (!schema) return console.fatal('Argument missing: schema (index 2).');
-
-		const obj = {};
-
-		Object.keys(data).forEach((e) => { obj[e] = data[e]; });
-
-		delete obj._doc._id;
-		delete obj._doc.UserId_1;
-		delete obj._doc.__v;
-
-		await schema.updateOne(query, obj._doc, { upsert: true });
-		return true;
-	}
-
-	async addXP(userId, amount) {
-		const data = await this.findUser(userId);
-
+	async addXP(data, amount) {
 		let bool = false;
 
 		data.Statistics.XP += amount;
@@ -87,18 +46,14 @@ module.exports = class AcoliumDatabase {
 		return { data, bool };
 	}
 
-	async addCoins(userId, amount) {
-		const data = await this.findUser(userId);
-
+	async addCoins(data, amount) {
 		amount = data.Backpack.Craftable.CoinAmulet > 0 ? amount + (amount * (10 / 100)) : amount;
 		data.Coins += amount;
 
 		return data;
 	}
 
-	async addAchievement(which, interaction, client) {
-		const data = await this.findUser(interaction.member.id);
-
+	async addAchievement(which, interaction, data, client) {
 		if(data.Achievements[which] === true) return data;
 
 		client.createMessage(interaction.channel.id, `\`[🐒]\` New achievement!\n\`[  ]\` **${config.achievements[which].emoji + config.achievements[which].name}**.`);

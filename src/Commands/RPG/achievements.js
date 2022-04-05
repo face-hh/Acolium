@@ -1,4 +1,5 @@
 const InteractionBase = require('../../Structures/CommandBase');
+const Schema = require('../../Schemas/Users');
 
 module.exports = class PingInteraction extends InteractionBase {
 	constructor(...args) {
@@ -8,7 +9,6 @@ module.exports = class PingInteraction extends InteractionBase {
 			options: [
 				{ name: 'user', type: 6, description: 'Whose achievements do you wanna see?' },
 			],
-			cooldown: 6000,
 		});
 	}
 	/**
@@ -17,9 +17,8 @@ module.exports = class PingInteraction extends InteractionBase {
    */
 	async run(interaction) {
 		const user = interaction.data.options === undefined ? interaction.member : await this.client.getRESTUser(interaction.data.options[0].value);
-		const data = await this.client.db.findUser(user.id);
+		const data = await Schema.findOne({ UserId: user.id }).select('Achievements').lean();
 
-		// Achievements.
 		const achievements = [];
 
 		// Getting the array of keys from data.Achievements || Mapping them by using the key, if the value of the achievement is true, add it's emoji.

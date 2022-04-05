@@ -1,4 +1,5 @@
 const InteractionBase = require('../../Structures/CommandBase');
+const Schema = require('../../Schemas/Users');
 
 module.exports = class PingInteraction extends InteractionBase {
 	constructor(...args) {
@@ -8,7 +9,7 @@ module.exports = class PingInteraction extends InteractionBase {
 			options: [
 				{ type: 3, name: 'rarity', description: 'Which rarity would you like to open?', required: true },
 			],
-			cooldown: 35000,
+			cooldown: 16000,
 		});
 	}
 	/**
@@ -17,7 +18,7 @@ module.exports = class PingInteraction extends InteractionBase {
    */
 	async run(interaction) {
 
-		const data = await this.client.db.findUser(interaction.member.id);
+		const data = await Schema.findOne({ UserId: interaction.member.id }).select('Backpack Coins');
 		const client = this.client;
 		const itemData = this.client.config.itemsData.find((x) => x.name.toLowerCase().replace(/ /gi, '') === interaction.data.options[0].value
 			.toLowerCase()
@@ -61,7 +62,7 @@ module.exports = class PingInteraction extends InteractionBase {
 					else {data.Backpack[whereIsTheItem2[0]][itemData.chest[i].prize.replace(/ /, '')] += amount;}
 					if(e === false) data.Backpack[whereIsTheItem[0]][itemData.name.replace(/ /gi, '')]--; e = true;
 
-					client.db.forceUpdate({ UserId: interaction.member.id }, data, require('../../Schemas/Users'));
+					data.save();
 
 					string += bool ? `\`${amount}x\` ${itemData2.emoji} ${itemData2.name}\n` : `╰─ \`${amount}x\` ${itemData2.emoji} ${itemData2.name}\n`;
 				}
