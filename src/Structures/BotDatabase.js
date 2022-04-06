@@ -15,7 +15,7 @@ module.exports = class AcoliumDatabase {
 		});
 
 		database.connection.on('connected', () => {
-			console.log('\x1b[32m[BOOT] \x1b[0mConnected to MongoDB!');
+			console.boot('Connected to MongoDB!');
 		});
 
 		database.connection.on('err', (err) => {

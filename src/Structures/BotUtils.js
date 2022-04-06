@@ -12,7 +12,7 @@ module.exports = class Utilities {
 
 	async loadInteractions() {
 		const interactions = await glob(`${this.directory}/Commands/**/*.js`);
-        const arr = [];
+		const arr = [];
 
 		for (const interactionFile of interactions) {
 			delete require.cache[interactionFile];
@@ -25,7 +25,7 @@ module.exports = class Utilities {
 
 			arr.push(interaction);
 		}
-this.client.config.devMode === true ? this.client.bulkEditGuildCommands('881813009876520980', arr) : this.client.bulkEditCommands(arr);
+		this.client.config.devMode === true ? this.client.bulkEditGuildCommands('881813009876520980', arr) : this.client.bulkEditCommands(arr);
 	}
 
 	async loadEvents() {
@@ -37,6 +37,7 @@ this.client.config.devMode === true ? this.client.bulkEditGuildCommands('8818130
 			const event = new File(this.client, name);
 
 			this.client.events.set(event.name, event);
+
 			event.emitter[event.type](name, (...args) => event.run(...args));
 
 		}

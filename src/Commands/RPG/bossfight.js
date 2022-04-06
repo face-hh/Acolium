@@ -1,7 +1,7 @@
 const InteractionBase = require('../../Structures/CommandBase');
 const Schema = require('../../Schemas/Users');
 
-module.exports = class PingInteraction extends InteractionBase {
+module.exports = class Command extends InteractionBase {
 	constructor(...args) {
 		super(...args, {
 			name: 'bossfight',
@@ -10,9 +10,9 @@ module.exports = class PingInteraction extends InteractionBase {
 		});
 	}
 	/**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+	 * @typedef {import('eris').CommandInteraction} Interaction
+	 * @param {Interaction} interaction
+	 */
 	async run(interaction) {
 		const data = await Schema.findOne({ UserId: interaction.member.id }).select('Backpack Achievements');
 

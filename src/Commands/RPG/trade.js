@@ -1,7 +1,7 @@
 const InteractionBase = require('../../Structures/CommandBase');
 const Schema = require('../../Schemas/Users');
 
-module.exports = class PingInteraction extends InteractionBase {
+module.exports = class Command extends InteractionBase {
 	constructor(...args) {
 		super(...args, {
 			name: 'trade',
@@ -15,9 +15,9 @@ module.exports = class PingInteraction extends InteractionBase {
 		});
 	}
 	/**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+	 * @typedef {import('eris').CommandInteraction} Interaction
+	 * @param {Interaction} interaction
+	 */
 	async run(interaction) {
 		if(interaction.data.options[0].value === interaction.member.id) return interaction.createFollowup({ content: 'No silly! You cam\'t trade with yourself, get a friend!', flags: 64 });
 		const data = await Schema.findOne({ UserId: interaction.member.id }).select('Backpack Coins');

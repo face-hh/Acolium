@@ -1,5 +1,11 @@
+/**
+ * @typedef {import('eris').Client} Client
+ */
 module.exports = class Interaction {
 	constructor(client, name, options = {}) {
+		/**
+		 * @type {Client}
+		 */
 		this.client = client;
 		this.name = options.name || name;
 		this.description = options.description || 'No description.';

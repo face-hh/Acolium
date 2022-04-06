@@ -2,7 +2,10 @@ const Eris = require('eris');
 const Event = require('../Structures/EventBase');
 
 module.exports = class extends Event {
-
+	/**
+	 * @typedef {import('eris').CommandInteraction} Interaction
+	 * @param {Interaction} interaction
+	 */
 	async run(interaction) {
 		if(interaction instanceof Eris.CommandInteraction) {
 
