@@ -1,4 +1,5 @@
 const Event = require('../Structures/EventBase');
+const Schema = require('../Schemas/Users');
 
 module.exports = class extends Event {
 	constructor(...args) {
@@ -7,12 +8,8 @@ module.exports = class extends Event {
 		});
 	}
 	async run() {
-		this.client.utils.loadInteractions()
-			.then(console.log(
-				'---------------================================------------------\n' +
-				'---------------       INTERACTIONS DONE        ------------------\n',
-			))
-			.catch(console.error);
+		await this.client.utils.loadInteractions();
+		console.log('\x1b[32m[BOOT] \x1b[0mReceived "ready" event.');
 
 	}
 };
