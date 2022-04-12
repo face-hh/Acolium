@@ -17,7 +17,7 @@ module.exports = class Command extends InteractionBase {
 	 */
 	async run(interaction) {
 		const user = interaction.data.options === undefined ? interaction.member : await this.client.getRESTUser(interaction.data.options[0].value);
-		const data = await Schema.findOne({ UserId: user.id }).select('Achievements').lean();
+		const data = await Schema.findOneAndUpdate({ UserId: user.id }, {}, { new: true, upsert: true, setDefaultsOnInsert: true }).select('Achievements').lean();
 
 		const achievements = [];
 

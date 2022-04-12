@@ -49,32 +49,6 @@ module.exports = class Utilities {
 		properties;
 	}
 
-	async loadDBL() {
-		const Webhook = require('./BotDBLCore');
-		const webhook = new Webhook(process.env.TOPGG_PASS);
-
-		webhook.login('/topggVotes', 19387);
-		webhook.on('vote', async (x) => {
-			const data = await this.client.db.findUser(x.user);
-			const coins = x.isWeekend === true ? 5000 : 2500;
-			const lootboxes = x.isWeekend === true ? 2 : 1;
-			const user = await this.client.getRESTUser(x.user);
-
-			data.Backpack.Useable.CommonChest += lootboxes;
-			data.Coins += coins;
-			data.Votes += lootboxes;
-
-			await this.client.db.forceUpdate({ UserId: x.user }, data, require('../Schemas/Users'));
-			this.client.createMessage((await this.client.getDMChannel(x.user)).id,
-				`Thanks for voting for me on top.gg! You received: **${this.client.config.coinEmoji} ${coins.toLocaleString()}** and **${
-					this.client.config.itemsData.find((y) => y.name === 'Common Chest').emoji
-				} ${lootboxes}**, ${x.isWeekend === true ? 'double beause it\'s weekend! T' : 't'}hanks for voting!`,
-			);
-
-			this.client.createMessage('949699134116483072', `**${user.username}** just voted for me, they are now at \`${data.Votes}\` votes!`);
-		});
-	}
-
 	/**
 	 * @param {object} options - The options needed for the collector.
 	 */
@@ -207,12 +181,12 @@ module.exports = class Utilities {
 	}
 
 	async registerTask(data) {
-		const r1 = Math.floor(Math.random() * Object.keys(this.client.config.tasks).length) + 1;
-		const r2 = Math.floor(Math.random() * Object.keys(this.client.config.tasks).length) + 1;
-		const r3 = Math.floor(Math.random() * Object.keys(this.client.config.tasks).length) + 1;
+		const r1 = Math.floor(Math.random() * Object.keys(this.client.config.quests).length) + 1;
+		const r2 = Math.floor(Math.random() * Object.keys(this.client.config.quests).length) + 1;
+		const r3 = Math.floor(Math.random() * Object.keys(this.client.config.quests).length) + 1;
 
-		data.Tasks = [r1, r2, r3];
-		data.TasksEndAt = Date.now() + 86400000;
+		data.Quests = [r1, r2, r3];
+		data.QuestsEndAt = Date.now() + 86400000;
 		await data.save();
 
 		return true;
@@ -229,7 +203,18 @@ module.exports = class Utilities {
 	}
 
 	convertSecToTime(time) {
-		return Date.now() - (time * 1000);
+		const seconds = time % 1000;
+		const minutes = Math.floor((time / 1000)) % 60;
+		const hours = Math.floor((time / (60 * 1000))) % 60;
+		const days = Math.floor(time / (60 * 1000 * 60 * 24));
+
+		let string = '';
+
+		if(minutes === 0) string = `${seconds}s`;
+		if(hours === 0) string = `${minutes}m ${seconds}s`;
+		if(days === 0) string = `${days}d ${minutes}m ${seconds}s`;
+
+		return string;
 	}
 
 	topCommonElementsInArray(nums, maxResults) {

@@ -18,11 +18,12 @@ module.exports = class extends Event {
 
 				if (timestamps.has(interaction.member.user.id)) {
 					const expirationTime = timestamps.get(interaction.member.user.id) + command.cooldown;
-					if (Date.now() < expirationTime) {
-						const timeLeft = this.client.utils.ms((timestamps.get(interaction.member.id) + command.cooldown) - Date.now());
-						await interaction.acknowledge();
-						return interaction.createFollowup({ content: `⏰ | This command is on cooldown for \`${timeLeft}\``, flags: 64 });
-					}
+					if (Date.now() > expirationTime) return;
+
+					const timeLeft = this.client.utils.ms((timestamps.get(interaction.member.id) + command.cooldown) - Date.now());
+
+					await interaction.acknowledge(64);
+					return interaction.createFollowup({ content: `⏰ | This command is on cooldown for \`${timeLeft}\``, flags: 64 });
 				}
 
 				this.client.emit('command', interaction);

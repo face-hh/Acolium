@@ -19,7 +19,7 @@ module.exports = class Command extends InteractionBase {
 	 */
 	async run(interaction) {
 
-		const data = await Schema.findOne({ UserId: interaction.member.id }).select('Statistics Coins Achievements').lean();
+		const data = await Schema.findOneAndUpdate({ UserId: interaction.member.id }, {}, { new: true, upsert: true, setDefaultsOnInsert: true }).select('Statistics Coins Achievements').lean();
 		const options = interaction.data.options;
 		const itemsData = require('../../Structures/BotConfig').itemsData;
 		const specifiedItemData = itemsData.find((x) => x.name.toLowerCase() === options[0].value.toLowerCase());

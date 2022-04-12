@@ -3,7 +3,7 @@ const Schema = require('../Schemas/Users');
 
 module.exports = class extends Event {
 	async run(interaction) {
-		const data = await Schema.findOne({ UserId: interaction.member.id }).select('Statistics Coins Achievements');
+		const data = await Schema.findOneAndUpdate({ UserId: interaction.member.id }, {}, { new: true, upsert: true, setDefaultsOnInsert: true }).select('Statistics Coins Achievements');
 		data.Statistics.CommandsUsed.push(interaction.data.name);
 
 		const leveledUp = await this.client.db.addXP(data, Math.floor(Math.random() * 10) + 1);

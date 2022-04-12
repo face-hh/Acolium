@@ -1,6 +1,4 @@
-/* eslint-disable no-unused-vars */
 const database = require('mongoose');
-const User = require('../Schemas/Users');
 const config = require('./BotConfig');
 
 module.exports = class AcoliumDatabase {
@@ -34,16 +32,13 @@ module.exports = class AcoliumDatabase {
 
 		data.Statistics.XP += amount;
 
-		if(data.Statistics.XP >= data.Statistics.LEVEL * 100) {
-			data.Statistics.XP = 0;
-			data.Statistics.LEVEL++;
-			data.Coins += 1200 * data.Statistics.LEVEL;
+		if(data.Statistics.XP <= data.Statistics.LEVEL * 50) return { data, bool };
 
-			bool = true;
-			return { data, bool };
-		}
+		data.Statistics.XP = 0;
+		data.Statistics.LEVEL++;
+		data.Coins += 1200 * data.Statistics.LEVEL;
 
-		return { data, bool };
+		bool = true;
 	}
 
 	async addCoins(data, amount) {

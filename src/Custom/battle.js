@@ -1,17 +1,12 @@
 module.exports = async (Canvas, randomEnemy, interaction, client, data, data2) => {
-	const path = client.config.devMode === true
+	const path = this.client.config.devMode === true
 		? 'src/Assets/'
 		: 'Acolium/src/Assets/';
 
 	const assets = {
 		background: await Canvas.loadImage(path + 'background.png'),
 		wizwiz: await Canvas.loadImage(path + 'wizwiz.png'),
-		enemy: randomEnemy.isPlayer === true
-			? null
-			: await Canvas.loadImage(path + `${randomEnemy.name
-				.replace(/ /gi, '_')
-				.toLowerCase()
-			}.png`),
+		enemy: randomEnemy.isPlayer === true ? null : await Canvas.loadImage(path + `${randomEnemy.name.replace(/ /gi, '_').toLowerCase()}.png`),
 		scroll: await Canvas.loadImage(path + 'scroll.png'),
 		heart: await Canvas.loadImage(path + 'heart.png'),
 		blue_heart: await Canvas.loadImage(path + 'blue_heart.png'),

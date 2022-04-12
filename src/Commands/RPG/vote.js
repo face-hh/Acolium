@@ -1,6 +1,6 @@
 const InteractionBase = require('../../Structures/CommandBase');
 
-module.exports = class PingInteraction extends InteractionBase {
+module.exports = class Command extends InteractionBase {
 	constructor(...args) {
 		super(...args, {
 			name: 'vote',
@@ -9,9 +9,9 @@ module.exports = class PingInteraction extends InteractionBase {
 		});
 	}
 	/**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+	 * @typedef {import('eris').CommandInteraction} Interaction
+	 * @param {Interaction} interaction
+	 */
 	async run(interaction) {
 		interaction.createFollowup({
 			content: 'Thanks for supporting this project, this helps us a lot!',
