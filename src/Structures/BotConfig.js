@@ -6,7 +6,7 @@ const mobs = require('../Resources/mobs');
 
 module.exports = {
 	/** ******************* ******************* */
-	devMode: true,
+	devMode: false,
 
 	coinEmoji: '<:bot_coin:928639227921571850>',
 	arrowEmoji: '╰─',
