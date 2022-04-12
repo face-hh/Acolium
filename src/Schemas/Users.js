@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const sinon = require('sinon')
+
 const Users = new Schema({
 	UserId: { type: String, required: true },
 	Statistics: {
