@@ -1,37 +1,38 @@
 const InteractionBase = require('../../Structures/CommandBase');
 
-module.exports = class PingInteraction extends InteractionBase {
+module.exports = class Command extends InteractionBase {
 	constructor(...args) {
 		super(...args, {
 			name: 'dex',
 			description: 'Wanna take a look at an item?',
-			cooldown: 6000,
 			options: [
 				{ type: 3, name: 'item', description: 'Info of which item you wanna know?', required: true },
 			],
 		});
 	}
 	/**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+	 * @typedef {import('eris').CommandInteraction} Interaction
+	 * @param {Interaction} interaction
+	 */
 	async run(interaction) {
 
-
 		const Canvas = require('canvas');
+		const path = this.client.config.devMode === true
+			? 'src/Assets/'
+			: 'Acolium/src/Assets/';
 
 		const info = this.client.config.itemsData.find((x) => x.name.replace(/ /gi, '').toLowerCase() === interaction.data.options[0].value.replace(/ /gi, '').toLowerCase());
 
 		if(!info) return interaction.createFollowup({ content: 'Invalid item specified!' });
 		const assets = {
-			background: await Canvas.loadImage('src/Assets/scroll_dex.png'),
+			background: await Canvas.loadImage(path + 'scroll_dex.png'),
 			item: await Canvas.loadImage(`https://cdn.discordapp.com/emojis/${info.emoji.replace(/\D/g, '').replace(/</gi, '')}.png`),
 		};
 
 		const canvas = Canvas.createCanvas(700, 700);
 		const ctx = canvas.getContext('2d');
 
-		Canvas.registerFont('src/Assets/MinecraftTen-VGORe.ttf', { family: 'Minecraft' });
+		Canvas.registerFont(path + 'MinecraftTen-VGORe.ttf', { family: 'Minecraft' });
 
 		ctx.drawImage(assets.background, 0, 0, 700, 700);
 		ctx.drawImage(assets.item, 132, 163, 80, 80);

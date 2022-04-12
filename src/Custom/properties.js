@@ -8,6 +8,9 @@ console.minor = (string) => {
 console.small = (string) => {
 	console.log(`\x1b[40m[SMALL] \x1b[0m${string}`);
 };
+console.boot = (string) => {
+	console.log(`\x1b[32m[BOOT] \x1b[0m${string}`);
+};
 
 Math.range = function range(num) {
 	const i = [];
