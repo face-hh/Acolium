@@ -1,7 +1,6 @@
 const InteractionBase = require('../../Structures/CommandBase');
-const Schema = require('../../Schemas/Users');
 
-module.exports = class Command extends InteractionBase {
+module.exports = class PingInteraction extends InteractionBase {
 	constructor(...args) {
 		super(...args, {
 			name: 'chest',
@@ -9,16 +8,16 @@ module.exports = class Command extends InteractionBase {
 			options: [
 				{ type: 3, name: 'rarity', description: 'Which rarity would you like to open?', required: true },
 			],
-			cooldown: 16000,
+			cooldown: 35000,
 		});
 	}
 	/**
-	 * @typedef {import('eris').CommandInteraction} Interaction
-	 * @param {Interaction} interaction
-	 */
+   * @param {Interaction} interaction
+   * @param {Client} client
+   */
 	async run(interaction) {
 
-		const data = await Schema.findOne({ UserId: interaction.member.id }).select('Backpack Coins');
+		const data = await this.client.db.findUser(interaction.member.id);
 		const client = this.client;
 		const itemData = this.client.config.itemsData.find((x) => x.name.toLowerCase().replace(/ /gi, '') === interaction.data.options[0].value
 			.toLowerCase()
@@ -62,7 +61,7 @@ module.exports = class Command extends InteractionBase {
 					else {data.Backpack[whereIsTheItem2[0]][itemData.chest[i].prize.replace(/ /, '')] += amount;}
 					if(e === false) data.Backpack[whereIsTheItem[0]][itemData.name.replace(/ /gi, '')]--; e = true;
 
-					data.save();
+					client.db.forceUpdate({ UserId: interaction.member.id }, data, require('../../Schemas/Users'));
 
 					string += bool ? `\`${amount}x\` ${itemData2.emoji} ${itemData2.name}\n` : `╰─ \`${amount}x\` ${itemData2.emoji} ${itemData2.name}\n`;
 				}

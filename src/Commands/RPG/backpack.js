@@ -1,7 +1,6 @@
 const InteractionBase = require('../../Structures/CommandBase');
-const Schema = require('../../Schemas/Users');
 
-module.exports = class Command extends InteractionBase {
+module.exports = class PingInteraction extends InteractionBase {
 	constructor(...args) {
 		super(...args, {
 			name: 'backpack',
@@ -9,16 +8,16 @@ module.exports = class Command extends InteractionBase {
 			options: [
 				{ name: 'user', type: 6, description: 'Whose backpack do you wanna see?' },
 			],
+			cooldown: 6000,
 		});
 	}
 	/**
-	 * @typedef {import('eris').CommandInteraction} Interaction
-	 * @param {Interaction} interaction
-	 */
+   * @param {Interaction} interaction
+   * @param {Client} client
+   */
 	async run(interaction) {
-
 		const user = interaction.data.options === undefined ? interaction.member : await this.client.getRESTUser(interaction.data.options[0].value);
-		const data = await Schema.findOne({ UserId: user.id }).select('Backpack').lean();
+		const data = await this.client.db.findUser(user.id);
 		const client = this.client;
 
 		const componentsArray = [{

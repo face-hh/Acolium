@@ -2,10 +2,7 @@ const Eris = require('eris');
 const Event = require('../Structures/EventBase');
 
 module.exports = class extends Event {
-	/**
-	 * @typedef {import('eris').CommandInteraction} Interaction
-	 * @param {Interaction} interaction
-	 */
+
 	async run(interaction) {
 		if(interaction instanceof Eris.CommandInteraction) {
 
@@ -17,9 +14,9 @@ module.exports = class extends Event {
 				const timestamps = this.client.cooldowns.get(command.name);
 
 				if (timestamps.has(interaction.member.user.id)) {
-					const expirationTime = timestamps.get(interaction.member.user.id) + command.cooldown;
+					const expirationTime = timestamps.get(interaction.member.user.id) + this.client.config.cooldowns[command.name];
 					if (Date.now() < expirationTime) {
-						const timeLeft = this.client.utils.ms((timestamps.get(interaction.member.id) + command.cooldown) - Date.now());
+						const timeLeft = this.client.utils.ms((timestamps.get(interaction.member.id) + this.client.config.cooldowns[command.name]) - Date.now());
 						await interaction.acknowledge();
 						return interaction.createFollowup({ content: `⏰ | This command is on cooldown for \`${timeLeft}\``, flags: 64 });
 					}
@@ -28,10 +25,11 @@ module.exports = class extends Event {
 				this.client.emit('command', interaction);
 
 				await timestamps.set(interaction.member.user.id, Date.now());
-				setTimeout(async () => await timestamps.delete(interaction.member.user.id), command.cooldown);
+				setTimeout(async () => await timestamps.delete(interaction.member.user.id), this.client.config.cooldowns[command.name]);
 
 				if(!interaction.acknowledged) await interaction.acknowledge().catch(() => {});
 				if(!interaction.options) return await command.run(interaction, this.client);
+
 
 				await command.run(
 					interaction,
@@ -39,9 +37,13 @@ module.exports = class extends Event {
 				);
 			}
 			catch (err) {
-				this.client.createMessage(interaction.channel.id, { content: 'Something went wrong!' });
+				this.client.createMessage(interaction.channel.id, {
+					content: 'Something went wrong!',
+					ephemeral: true,
+				});
 
-				this.client.devMode === true ? console.error(err) : console.minor(`Error caught: ${err}`);
+				console.error(err);
+				// console.minor(`Error catched: ${err}`);
 			}
 		}
 

@@ -12,7 +12,6 @@ module.exports = class Utilities {
 
 	async loadInteractions() {
 		const interactions = await glob(`${this.directory}/Commands/**/*.js`);
-		const arr = [];
 
 		for (const interactionFile of interactions) {
 			delete require.cache[interactionFile];
@@ -23,9 +22,8 @@ module.exports = class Utilities {
 			this.client.interactions.set(interaction.name, interaction);
 			this.client.cooldowns.set(interaction.name, new Map());
 
-			arr.push(interaction);
+			this.client.config.devMode === true ? this.client.createGuildCommand('881813009876520980', interaction) : this.client.createCommand(interaction);
 		}
-		this.client.config.devMode === true ? this.client.bulkEditGuildCommands('881813009876520980', arr) : this.client.bulkEditCommands(arr);
 	}
 
 	async loadEvents() {
@@ -37,7 +35,6 @@ module.exports = class Utilities {
 			const event = new File(this.client, name);
 
 			this.client.events.set(event.name, event);
-
 			event.emitter[event.type](name, (...args) => event.run(...args));
 
 		}
@@ -204,18 +201,6 @@ module.exports = class Utilities {
 		}
 
 		return res;
-	}
-
-	async registerTask(data) {
-		const r1 = Math.floor(Math.random() * Object.keys(this.client.config.tasks).length) + 1;
-		const r2 = Math.floor(Math.random() * Object.keys(this.client.config.tasks).length) + 1;
-		const r3 = Math.floor(Math.random() * Object.keys(this.client.config.tasks).length) + 1;
-
-		data.Tasks = [r1, r2, r3];
-		data.TasksEndAt = Date.now() + 86400000;
-		await data.save();
-
-		return true;
 	}
 
 	convertBytes(x) {

@@ -1,7 +1,6 @@
 const InteractionBase = require('../../Structures/CommandBase');
-const Schema = require('../../Schemas/Users');
 
-module.exports = class Command extends InteractionBase {
+module.exports = class PingInteraction extends InteractionBase {
 	constructor(...args) {
 		super(...args, {
 			name: 'profile',
@@ -13,12 +12,12 @@ module.exports = class Command extends InteractionBase {
 		});
 	}
 	/**
-	 * @typedef {import('eris').CommandInteraction} Interaction
-	 * @param {Interaction} interaction
-	 */
+   * @param {Interaction} interaction
+   * @param {Client} client
+   */
 	async run(interaction) {
 		const user = interaction.data.options === undefined ? interaction.member : await this.client.getRESTUser(interaction.data.options[0].value);
-		const data = await Schema.findOne({ UserId: user.id }).select('Statistics Coins Achievements').lean();
+		const data = await this.client.db.findUser(user.id);
 		const topCommands = this.client.utils.topCommonElementsInArray(data.Statistics.CommandsUsed);
 		const timestamp = Math.round(data.Statistics.RegisteredAt / 1000);
 
@@ -42,6 +41,7 @@ module.exports = class Command extends InteractionBase {
 			],
 			thumbnail: { url: user === interaction.member ? user.user.dynamicAvatarURL('png') : user.dynamicAvatarURL('png') },
 			color: this.client.utils.randomHex(),
+
 		};
 
 		interaction.createFollowup({ embed: embed });

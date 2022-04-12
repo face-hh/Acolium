@@ -1,6 +1,6 @@
 const InteractionBase = require('../../Structures/CommandBase');
 
-module.exports = class Command extends InteractionBase {
+module.exports = class PingInteraction extends InteractionBase {
 	constructor(...args) {
 		super(...args, {
 			name: 'stats',
@@ -9,9 +9,9 @@ module.exports = class Command extends InteractionBase {
 		});
 	}
 	/**
-	 * @typedef {import('eris').CommandInteraction} Interaction
-	 * @param {Interaction} interaction
-	 */
+   * @param {Interaction} interaction
+   * @param {Client} client
+   */
 	async run(interaction) {
 
 		const Schema = require('../../Schemas/Users');

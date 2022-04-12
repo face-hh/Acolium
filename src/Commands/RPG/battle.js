@@ -1,7 +1,6 @@
 const InteractionBase = require('../../Structures/CommandBase');
-const Schema = require('../../Schemas/Users');
 
-module.exports = class Command extends InteractionBase {
+module.exports = class PingInteraction extends InteractionBase {
 	constructor(...args) {
 		super(...args, {
 			name: 'battle',
@@ -13,11 +12,12 @@ module.exports = class Command extends InteractionBase {
 		});
 	}
 	/**
-	 * @typedef {import('eris').CommandInteraction} Interaction
-	 * @param {Interaction} interaction
-	 */
+   * @param {Interaction} interaction
+   * @param {Client} client
+   */
 	async run(interaction) {
-		const data = await Schema.findOne({ UserId: interaction.member.id }).select('Backpack Achievements');
+		const data = await this.client.db.findUser(interaction.member.user.id);
+
 
 		const randomEnemy =
 		interaction.data.options
@@ -26,7 +26,7 @@ module.exports = class Command extends InteractionBase {
 		const Canvas = require('canvas');
 
 		require('../../Custom/battle')(Canvas, randomEnemy, interaction, this.client, data, interaction.data.options
-			? await Schema.findOne({ UserId: interaction.data.options[0].value }).select('Backpack Achievements')
+			? await this.client.db.findUser(interaction.data.options[0].value)
 			: { Backpack: { Useable: { CupidArrow: 0 } },
 			});
 	}

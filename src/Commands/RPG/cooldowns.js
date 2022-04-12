@@ -1,16 +1,17 @@
 const InteractionBase = require('../../Structures/CommandBase');
 
-module.exports = class Command extends InteractionBase {
+module.exports = class PingInteraction extends InteractionBase {
 	constructor(...args) {
 		super(...args, {
 			name: 'cooldowns',
 			description: 'If you ever wanna know what command is in cooldown!',
+			cooldown: 6000,
 		});
 	}
 	/**
-	 * @typedef {import('eris').CommandInteraction} Interaction
-	 * @param {Interaction} interaction
-	 */
+   * @param {Interaction} interaction
+   * @param {Client} client
+   */
 	async run(interaction) {
 
 		const arr = [

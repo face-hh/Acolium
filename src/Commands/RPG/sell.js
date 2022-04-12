@@ -1,7 +1,6 @@
 const InteractionBase = require('../../Structures/CommandBase');
-const Schema = require('../../Schemas/Users');
 
-module.exports = class Command extends InteractionBase {
+module.exports = class PingInteraction extends InteractionBase {
 	constructor(...args) {
 		super(...args, {
 			name: 'sell',
@@ -14,12 +13,12 @@ module.exports = class Command extends InteractionBase {
 		});
 	}
 	/**
-	 * @typedef {import('eris').CommandInteraction} Interaction
-	 * @param {Interaction} interaction
-	 */
+   * @param {Interaction} interaction
+   * @param {Client} client
+   */
 	async run(interaction) {
 
-		const data = await Schema.findOne({ UserId: interaction.member.id }).select('Statistics Coins Achievements').lean();
+		const data = await this.client.db.findUser(interaction.member.id);
 		const options = interaction.data.options;
 		const itemsData = require('../../Structures/BotConfig').itemsData;
 		const specifiedItemData = itemsData.find((x) => x.name.toLowerCase() === options[0].value.toLowerCase());
@@ -48,7 +47,8 @@ module.exports = class Command extends InteractionBase {
 
 		data.Backpack[whereIsTheItem[0]][databaseItemName] -= amount;
 		data.Coins = coins.Coins;
-		data.save();
+
+		this.client.db.forceUpdate({ UserId: interaction.member.id }, data, require('../../Schemas/Users'));
 
 		interaction.createFollowup({ embed: {
 			description: `\`[✅]\` You've successfully sold **${amount} ${specifiedItemData.emoji} ${specifiedItemData.name}** for **${totalGain.toLocaleString()} ${this.client.config.coinEmoji}**`,

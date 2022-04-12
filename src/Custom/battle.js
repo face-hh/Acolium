@@ -130,7 +130,8 @@ module.exports = async (Canvas, randomEnemy, interaction, client, data, data2) =
 			messageObject.embeds[0].description = string + '```';
 
 			data.Backpack.Useable.CupidArrow--;
-			data.save();
+			client.db.forceUpdate({ UserId: interaction.member.id }, data, require('../Schemas/Users'));
+
 		}
 		gameData.find((x) => x.turn === true).turn = false;
 		gameData.find((x) => x.turn === false).turn = true;
@@ -221,11 +222,11 @@ module.exports = async (Canvas, randomEnemy, interaction, client, data, data2) =
 			if (!randomEnemy.isPlayer && wonByWho.NAME === interaction.member.user.username) {
 				const loot = await client.utils.generateBattleLoot(data, randomEnemy);
 				data = loot.data;
-				data.Achievements = (await client.db.addAchievement('ACH5', interaction, data, client)).Achievements;
+				data.Achievements = (await client.db.addAchievement('ACH5', interaction, client)).Achievements;
 
 				string += `\`\`\`${loot.str}`;
 				messageObject.embeds[0].description = string;
-				data.save();
+				client.db.forceUpdate({ UserId: interaction.member.id }, data, require('../Schemas/Users'));
 			}
 			else {messageObject.embeds[0].description = string + '```';}
 			disableButtons(true);

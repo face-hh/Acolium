@@ -1,20 +1,19 @@
 const InteractionBase = require('../../Structures/CommandBase');
-const Schema = require('../../Schemas/Users');
 
-module.exports = class Command extends InteractionBase {
+module.exports = class PingInteraction extends InteractionBase {
 	constructor(...args) {
 		super(...args, {
 			name: 'craft',
 			description: 'Let\'s get advanced into gear!',
-			cooldown: 35000,
+			cooldown: 6000,
 		});
 	}
 	/**
-	 * @typedef {import('eris').CommandInteraction} Interaction
-	 * @param {Interaction} interaction
-	 */
+   * @param {Interaction} interaction
+   * @param {Client} client
+   */
 	async run(interaction) {
-		const data = await Schema.findOne({ UserId: interaction.member.id }).select('Backpack Coins');
+		const data = await this.client.db.findUser(interaction.member.id);
 
 		let i = 0;
 
@@ -110,7 +109,7 @@ module.exports = class Command extends InteractionBase {
 						data.Backpack[whereIsTheItem2[0]][e[0].name.replace(/ /gi, '')] -= e[2];
 						success = true;
 
-						data.save();
+						await this.client.db.forceUpdate({ UserId: button.member.user.id }, data, require('../../Schemas/Users'));
 					}
 					else {success = false;}
 				});
@@ -124,10 +123,10 @@ module.exports = class Command extends InteractionBase {
 					interaction.createFollowup({ content: `Successfully crafted **x1 ${itemInfo.emoji} ${embeds[i][1].title}**.`, ephemeral: true });
 
 
-					const achieved = await this.client.db.addAchievement('ACH1', interaction, data, this.client);
+					const achieved = await this.client.db.addAchievement('ACH1', interaction, this.client);
 					data.Achievements = achieved.Achievements;
 
-					data.save();
+					await this.client.db.forceUpdate({ UserId: button.member.user.id }, data, require('../../Schemas/Users'));
 				}
 			}
 			set();
