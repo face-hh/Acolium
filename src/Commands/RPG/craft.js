@@ -14,7 +14,7 @@ module.exports = class Command extends InteractionBase {
 	 * @param {Interaction} interaction
 	 */
 	async run(interaction) {
-		const data = await Schema.findOne({ UserId: interaction.member.id }).select('Backpack Coins');
+		const data = await Schema.findOneAndUpdate({ UserId: interaction.member.id }, {}, { new: true, upsert: true, setDefaultsOnInsert: true }).select('Backpack Coins');
 
 		let i = 0;
 

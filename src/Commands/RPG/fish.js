@@ -15,7 +15,7 @@ module.exports = class Command extends InteractionBase {
 	 */
 	async run(interaction) {
 
-		const data = await Schema.findOne({ UserId: interaction.member.id }).select('Backpack Achievements Coins');
+		const data = await Schema.findOneAndUpdate({ UserId: interaction.member.id }, {}, { new: true, upsert: true, setDefaultsOnInsert: true }).select('Backpack Achievements Coins');
 		const fish = this.client.utils.fish(data);
 		const emoji = this.client.config.itemsData.find((x) => x.name === fish.prize).emoji;
 

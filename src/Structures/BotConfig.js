@@ -1,91 +1,19 @@
-module.exports = {
-	prefix: process.env.PREFIX,
-	devMode: true,
-	token: undefined,
+const achievements = require('../Resources/achievements');
+const items = require('../Resources/items');
+const craft = require('../Resources/craft');
+const mobs = require('../Resources/mobs');
+// const quests = require('../Resources/quests');
 
-	craftData: [
-		{ name: 'Scope', neededItems: [{ DuckTape: 1, Glass: 1 }], Coins: 25000, description: 'Boosts hunt chances by 25%.' },
-		{ name: 'Glass', neededItems: [{ Sand: 1, FireEssence: 1 }], Coins: 1000, description: 'Used in crafting.' },
-		{ name: 'Water Purifier', neededItems: [{ WaterEssence: 4 }], Coins: 30000, description: 'Boosts chances of fishing a treasure by 400% `(2% => 8%)`.' },
-		{ name: 'Coin Amulet', neededItems: [{ Glass: 2 }], Coins: 125000, description: 'Increases the amount of coins you get by 10%.' },
-	],
-	itemsData: [
-		// CRAFT
-		{ name: 'Scope', price: null, type: 'POWERUP', rarity: 'Epic', emoji: '<:scope:928657776849326110>' },
-		{ name: 'Glass', price: 500, type: 'COLLECTABLE', rarity: 'Rare', emoji: '<:glass:929736092809326632>' },
-		{ name: 'Water Purifier', price: null, type: 'POWERUP', rarity: 'Epic', emoji: '<:water_purifier:929323189039943721>' },
-		{ name: 'Coin Amulet', price: null, type: 'POWERUP', rarity: 'Legendary', emoji: '<:coin_amulet:928639227795755028>' },
-		// HUNT
-		{ name: 'Chad', price: 500000, type: 'COLLECTABLE', rarity: 'Legendary', emoji: '<a:giga_chad:928650772676231200>' },
-		{ name: 'Bird', price: 50000, type: 'COLLECTABLE', rarity: 'Epic', emoji: '<:bird_bot:928645444345659513>' },
-		{ name: 'Sheep', price: 10000, type: 'COLLECTABLE', rarity: 'Rare', emoji: '<:sheep_bot:928645886316261406>' },
-		{ name: 'Wolf', price: 2500, type: 'COLLECTABLE', rarity: 'Uncommon', emoji: '<:wolf_bot:928645445377458226>' },
-		{ name: 'Chicken', price: 500, type: 'COLLECTABLE', rarity: 'Common', emoji: '<:chicken_bot:928645445335539712>' },
-		// FISH
-		{ name: 'Treasure', price: 150000, type: 'COLLECTABLE', rarity: 'Legendary', emoji: '<:treasure:942117942005473320>' },
-		{ name: 'Whale', price: 25000, type: 'COLLECTABLE', rarity: 'Epic', emoji: '<:whale_bot:942115970581925948>' },
-		{ name: 'Exotic Fish', price: 5000, type: 'COLLECTABLE', rarity: 'Rare', emoji: '<:exotic_fish:942115970783264859>' },
-		{ name: 'Fish', price: 1000, type: 'COLLECTABLE', rarity: 'Uncommon', emoji: '<:fish_bot:942115970594512966>' },
-		{ name: 'DuckTape', price: 700, type: 'COLLECTABLE', rarity: 'Uncommon', emoji: '<:ducktape:929320660277264385>' },
-		{ name: 'Sand', price: 100, type: 'COLLECTABLE', rarity: 'Common', emoji: '<:sand:942115970724528168>' },
-		{ name: 'Garbage', price: 50, type: 'COLLECTABLE', rarity: 'Bruh', emoji: '<:garbage:942115970632253534>' },
-		// POTIONS
-		{ name: 'Fire Essence', price: null, type: 'ESSENCE', rarity: 'Uncommon', emoji: '<a:fire_essence:928638912933556224>' },
-		{ name: 'Water Essence', price: null, type: 'ESSENCE', rarity: 'Uncommon', emoji: '<:water_essence:928965885362864149>' },
-		{ name: 'Lightning Essence', price: null, type: 'ESSENCE', rarity: 'Uncommon', emoji: '<a:lightning_essence:928980091462111242>' },
-		{ name: 'Wind Essence', price: 1000, type: 'ESSENCE', rarity: 'Uncommon', emoji: '<a:wind_essence:928965965918638121>' },
-		{ name: 'Earth Essence', price: null, type: 'ESSENCE', rarity: 'Uncommon', emoji: '<a:earth_essence:928965926924193803>' },
-		// USABLE
-		{ name: 'Cupid Arrow', price: 5000, type: 'POWERUP', rarity: 'Rare', emoji: '<a:e:942415806329921566>' },
-		{ name: 'Common Chest', price: 2500, type: 'POWERUP', rarity: 'Common', emoji: '<a:e:942802954635862026>', chest: [
-			{ min: 100, max: 100, prize: 'Coins', rand: 1200 },
-			{ min: 80, max: 100, prize: 'Garbage', rand: 4 },
-			{ min: 60, max: 80, prize: 'Sand', rand: 3 },
-			{ min: 30, max: 60, prize: 'DuckTape', rand: 2 },
-			{ min: 10, max: 30, prize: 'Scope', rand: 1 },
-		] },
-		{ name: 'Uncommon Chest', price: 4000, type: 'POWERUP', rarity: 'Uncommon', emoji: '<a:e:942802967508180993>', chest: [
-			{ min: 100, max: 100, prize: 'Coins', rand: 1200 },
-			{ min: 80, max: 100, prize: 'Wind Essence', rand: 4 },
-			{ min: 60, max: 80, prize: 'Fire Essence', rand: 3 },
-			{ min: 30, max: 60, prize: 'Glass', rand: 2 },
-			{ min: 10, max: 30, prize: 'Water Purifier', rand: 1 },
-		] },
-	],
+module.exports = {
+	/** ******************* ******************* */
+	devMode: true,
+
 	coinEmoji: '<:bot_coin:928639227921571850>',
 	arrowEmoji: '╰─',
-
-	cooldowns: {
-		battle: 15000,
-		bossfight: 60000,
-		fish: 35000,
-		hunt: 30000,
-		chest: 16000,
-	},
-	achievements: {
-		ACH1: { emoji: '<:getin2craft:929974698572382228>', name: 'Gettin\' on gear', description: 'Craft your first item!' },
-		ACH2: { emoji: '<:professionalhunter:929975155126595614>', name: 'Professional Hunter', description: 'Get the legendary item in hunting!' },
-		ACH3: { emoji: '<:getin2fish:929974876633198672>', name: 'Treasure hunter', description: 'Get the legendary item in fishing!' },
-		ACH4: { emoji: '<:act5wiz:929974967569907725>', name: 'Active wiz', description: 'Get 100 used commands!' },
-		ACH5: { emoji: '<:getin2f8:929974774510288978>', name: 'Fightin\' boy', description: 'Win your first battle!' },
-		ACH6: { emoji: '<:getin2fish:929974876633198672>', name: 'Catch that fish', description: 'Fish for the first time!' },
-		ACH7: { emoji: '<:getin2hunt:929975087153684490>', name: 'Gettin\' into huntin\'', description: 'Hunt for the first time!' },
-		ACH8: { emoji: '<:essencemaster:929975223376310283>', name: 'Complete the GAME', description: 'Beat billy!' },
-	},
-	mobs: [
-		{ name: 'Bear', hp: 60, essence: 'EarthEssence' },
-		{ name: 'Cloud', hp: 30, essence: 'LightningEssence' },
-		{ name: 'Fire Leaves', hp: 70, essence: 'FireEssence' },
-		{ name: 'Water Worm', hp: 70, essence: 'WaterEssence' },
-		{ name: 'Air', hp: 5, essence: 'WindEssence' },
-	],
-
-	tasks: {
-		1: `Share 6,000 ${this.coinEmoji} to someone!`,
-		2: 'Use 60 commands!',
-		3: 'Battle 20 times!',
-		4: 'Hunt 3 <:wolf_bot:928645445377458226> wolves!',
-		5: 'Fish 3 <:exotic_fish:942115970783264859> exotic fishes!',
-		6: 'Get 256 XP!',
-	},
+	/** ******************* ******************* */
+	craftData: craft,
+	itemsData: items,
+	achievements: achievements,
+	mobs: mobs,
+	// quests: quests,
 };

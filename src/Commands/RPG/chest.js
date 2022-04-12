@@ -18,7 +18,7 @@ module.exports = class Command extends InteractionBase {
 	 */
 	async run(interaction) {
 
-		const data = await Schema.findOne({ UserId: interaction.member.id }).select('Backpack Coins');
+		const data = await Schema.findOneAndUpdate({ UserId: interaction.member.id }, {}, { new: true, upsert: true, setDefaultsOnInsert: true }).select('Backpack Coins');
 		const client = this.client;
 		const itemData = this.client.config.itemsData.find((x) => x.name.toLowerCase().replace(/ /gi, '') === interaction.data.options[0].value
 			.toLowerCase()

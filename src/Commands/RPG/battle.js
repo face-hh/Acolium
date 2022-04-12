@@ -17,7 +17,7 @@ module.exports = class Command extends InteractionBase {
 	 * @param {Interaction} interaction
 	 */
 	async run(interaction) {
-		const data = await Schema.findOne({ UserId: interaction.member.id }).select('Backpack Achievements');
+		const data = await Schema.findOneAndUpdate({ UserId: interaction.member.id }, {}, { new: true, upsert: true, setDefaultsOnInsert: true }).select('Backpack Achievements');
 
 		const randomEnemy =
 		interaction.data.options
@@ -26,7 +26,7 @@ module.exports = class Command extends InteractionBase {
 		const Canvas = require('canvas');
 
 		require('../../Custom/battle')(Canvas, randomEnemy, interaction, this.client, data, interaction.data.options
-			? await Schema.findOne({ UserId: interaction.data.options[0].value }).select('Backpack Achievements')
+			? await Schema.findOneAndUpdate({ UserId: interaction.data.options[0].value }, {}, { new: true, upsert: true, setDefaultsOnInsert: true }).select('Backpack Achievements')
 			: { Backpack: { Useable: { CupidArrow: 0 } },
 			});
 	}

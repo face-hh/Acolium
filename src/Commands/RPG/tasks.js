@@ -4,8 +4,8 @@ const Schema = require('../../Schemas/Users');
 module.exports = class PingInteraction extends InteractionBase {
 	constructor(...args) {
 		super(...args, {
-			name: 'tasks',
-			description: 'See your tasks!',
+			name: 'quests',
+			description: 'See your quests!',
 			cooldown: 35000,
 		});
 	}
@@ -14,18 +14,18 @@ module.exports = class PingInteraction extends InteractionBase {
     * @param {Client} client
     */
 	async run(interaction) {
-		const data = await Schema.findOne({ UserId: interaction.member.id }).select('Tasks TasksEndAt').lean();
+		const data = await Schema.findOneAndUpdate({ UserId: interaction.member.id }, {}, { new: true, upsert: true, setDefaultsOnInsert: true }).select('Quests').lean();
 
-		const map = data.Tasks.map((el, i) => {
-			return `\`${i + 1}.\` ${this.client.config.tasks[el]}`;
+		const map = data.Quests.map((el, i) => {
+			return `\`${i + 1}.\` ${this.client.config.quests[el]}`;
 		});
 
 		interaction.createFollowup({
 			embeds: [{
-				title: 'Your active tasks...',
+				title: 'Your active quests...',
 				description: map.join('\n'),
-				footer: { text: 'Tasks expire & renew in: ' },
-				timestamp: Date.now() - data.TasksEndAt,
+				footer: { text: 'Quests expire & renew in: ' },
+				timestamp: Date.now() - data.QuestsEndAt,
 			}],
 		});
 	}

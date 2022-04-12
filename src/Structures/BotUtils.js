@@ -181,12 +181,12 @@ module.exports = class Utilities {
 	}
 
 	async registerTask(data) {
-		const r1 = Math.floor(Math.random() * Object.keys(this.client.config.tasks).length) + 1;
-		const r2 = Math.floor(Math.random() * Object.keys(this.client.config.tasks).length) + 1;
-		const r3 = Math.floor(Math.random() * Object.keys(this.client.config.tasks).length) + 1;
+		const r1 = Math.floor(Math.random() * Object.keys(this.client.config.quests).length) + 1;
+		const r2 = Math.floor(Math.random() * Object.keys(this.client.config.quests).length) + 1;
+		const r3 = Math.floor(Math.random() * Object.keys(this.client.config.quests).length) + 1;
 
-		data.Tasks = [r1, r2, r3];
-		data.TasksEndAt = Date.now() + 86400000;
+		data.Quests = [r1, r2, r3];
+		data.QuestsEndAt = Date.now() + 86400000;
 		await data.save();
 
 		return true;

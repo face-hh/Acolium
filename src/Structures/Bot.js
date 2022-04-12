@@ -3,6 +3,13 @@ const Utils = require('./BotUtils.js');
 const AcoliumDatabase = require('./BotDatabase');
 const config = require('./BotConfig');
 
+/**
+ * Dear Face.
+ * I can not explain how dumb you are while coding.
+ * Please stop the music you're playing rightnow.
+ *
+ * Thanks!!
+ */
 module.exports = class BotClient extends Client {
 	constructor(options = config) {
 		options.token = config.devMode === true ? process.env.TOKEN_DEV : process.env.TOKEN;

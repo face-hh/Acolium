@@ -18,7 +18,7 @@ module.exports = class Command extends InteractionBase {
 	 */
 	async run(interaction) {
 		const user = interaction.data.options === undefined ? interaction.member : await this.client.getRESTUser(interaction.data.options[0].value);
-		const data = await Schema.findOne({ UserId: user.id }).select('Statistics Coins Achievements').lean();
+		const data = await Schema.findOneAndUpdate({ UserId: user.id }, {}, { new: true, upsert: true, setDefaultsOnInsert: true }).select('Statistics Coins Achievements').lean();
 		const topCommands = this.client.utils.topCommonElementsInArray(data.Statistics.CommandsUsed);
 		const timestamp = Math.round(data.Statistics.RegisteredAt / 1000);
 

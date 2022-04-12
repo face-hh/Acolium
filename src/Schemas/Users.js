@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const sinon = require('sinon')
 const Users = new Schema({
 	UserId: { type: String, required: true },
 	Statistics: {
@@ -6,11 +7,18 @@ const Users = new Schema({
 		LEVEL: { type: Number, default: 1 },
 		CommandsUsed: { type: Array, default: [] },
 		RegisteredAt: { type: Number, default: Date.now() },
+		/** ******************* ******************* */
+		Lifetime: {
+			Traded: { type: Number, default: 0 },
+			Battled: { type: Number, default: 0 },
+			Quests: { type: Number, default: 0 },
+			Recieved: { type: Number, default: 0 },
+		},
 	},
 	Coins: { type: Number, default: 5000 },
 
-	Tasks: { type: Array, default: [] },
-	TasksEndAt: { type: Date, default: null },
+	// Quests: { type: Array, default: [] },
+	// QuestsEndAt: { type: Date, default: null },
 
 	Backpack: {
 		Essences: {
@@ -61,21 +69,6 @@ const Users = new Schema({
 	//
 });
 const model2 = model('Users', Users);
-Users.static('findOne', async function(cb) {
-	const data = await model2.findOne(cb);
-
-	if (!data && cb?.UserId) {
-		const newData = new this(cb);
-
-		delete newData.UserId_1;
-
-		await newData
-			.save()
-			.catch((error) => console.minor('Error caught: ' + error));
-		return newData;
-	}
-	else {return data;}
-});
 
 Users.pre('save', async function() {
 	const obj = {};
@@ -90,4 +83,4 @@ Users.pre('save', async function() {
 
 	return true;
 });
-module.exports = model('Users', Users);
+module.exports = model2;

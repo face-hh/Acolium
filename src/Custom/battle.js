@@ -1,11 +1,15 @@
 module.exports = async (Canvas, randomEnemy, interaction, client, data, data2) => {
+	const path = this.client.config.devMode === true
+		? 'src/Assets/'
+		: 'Acolium/src/Assets/';
+
 	const assets = {
-		background: await Canvas.loadImage('src/Assets/background.png'),
-		wizwiz: await Canvas.loadImage('src/Assets/wizwiz.png'),
-		enemy: randomEnemy.isPlayer === true ? null : await Canvas.loadImage(`src/Assets/${randomEnemy.name.replace(/ /gi, '_').toLowerCase()}.png`),
-		scroll: await Canvas.loadImage('src/Assets/scroll.png'),
-		heart: await Canvas.loadImage('src/Assets/heart.png'),
-		blue_heart: await Canvas.loadImage('src/Assets/blue_heart.png'),
+		background: await Canvas.loadImage(path + 'background.png'),
+		wizwiz: await Canvas.loadImage(path + 'wizwiz.png'),
+		enemy: randomEnemy.isPlayer === true ? null : await Canvas.loadImage(path + `${randomEnemy.name.replace(/ /gi, '_').toLowerCase()}.png`),
+		scroll: await Canvas.loadImage(path + 'scroll.png'),
+		heart: await Canvas.loadImage(path + 'heart.png'),
+		blue_heart: await Canvas.loadImage(path + 'blue_heart.png'),
 	};
 	const gameData = [
 		{ NAME: interaction.member.user.username.slice(0, 11), HP: 100, turn: true, shield: 0, id: interaction.member.user.id, stunned: 0 },
@@ -54,7 +58,7 @@ module.exports = async (Canvas, randomEnemy, interaction, client, data, data2) =
 		attachments: [],
 	};
 
-	Canvas.registerFont('src/Assets/MinecraftTen-VGORe.ttf', { family: 'Minecraft' });
+	Canvas.registerFont(path + 'MinecraftTen-VGORe.ttf', { family: 'Minecraft' });
 
 	function dababy(gameData2) {
 		const canvas = Canvas.createCanvas(1920, 786);

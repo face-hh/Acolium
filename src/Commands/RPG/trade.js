@@ -20,8 +20,9 @@ module.exports = class Command extends InteractionBase {
 	 */
 	async run(interaction) {
 		if(interaction.data.options[0].value === interaction.member.id) return interaction.createFollowup({ content: 'No silly! You cam\'t trade with yourself, get a friend!', flags: 64 });
-		const data = await Schema.findOne({ UserId: interaction.member.id }).select('Backpack Coins');
-		const data2 = await Schema.findOne({ UserId: interaction.data.options[0].value }).select('Backpack Coins');
+		const data = await Schema.findOneAndUpdate({ UserId: interaction.member.id }, {}, { new: true, upsert: true, setDefaultsOnInsert: true }).select('Backpack Coins');
+		const data2 = await Schema.findOneAndUpdate({ UserId: interaction.data.options[0].value }, {}, { new: true, upsert: true, setDefaultsOnInsert: true }).select('Backpack Coins');
+
 		const options = interaction.data.options;
 		const client = this.client;
 		const itemsData = require('../../Structures/BotConfig').itemsData;
