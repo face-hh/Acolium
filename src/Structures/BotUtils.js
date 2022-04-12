@@ -1,6 +1,7 @@
 const path = require('path');
 const { promisify } = require('util');
 const glob = promisify(require('glob'));
+const Schema = require('../Schemas/Users')
 
 module.exports = class Utilities {
 	constructor(client) {
@@ -53,9 +54,9 @@ module.exports = class Utilities {
 		const Webhook = require('./BotDBLCore');
 		const webhook = new Webhook(process.env.TOPGG_PASS);
 
-		webhook.login('/topggVotes', 19387);
+		webhook.login('/topggVotes', 19606);
 		webhook.on('vote', async (x) => {
-			const data = await this.client.db.findUser(x.user);
+			const data = await Schema.findOneAndUpdate({ UserId: x.user }, {}, { new: true, upsert: true, setDefaultsOnInsert: true });
 			const coins = x.isWeekend === true ? 5000 : 2500;
 			const lootboxes = x.isWeekend === true ? 2 : 1;
 			const user = await this.client.getRESTUser(x.user);
@@ -64,7 +65,7 @@ module.exports = class Utilities {
 			data.Coins += coins;
 			data.Votes += lootboxes;
 
-			await this.client.db.forceUpdate({ UserId: x.user }, data, require('../Schemas/Users'));
+			await data.save()
 			this.client.createMessage((await this.client.getDMChannel(x.user)).id,
 				`Thanks for voting for me on top.gg! You received: **${this.client.config.coinEmoji} ${coins.toLocaleString()}** and **${
 					this.client.config.itemsData.find((y) => y.name === 'Common Chest').emoji
