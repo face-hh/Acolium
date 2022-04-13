@@ -1,5 +1,5 @@
 module.exports = async (Canvas, randomEnemy, interaction, client, data, data2) => {
-	const path = this.client.config.devMode === true
+	const path = client.config.devMode === true
 		? 'src/Assets/'
 		: 'Acolium/src/Assets/';
 
