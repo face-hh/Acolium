@@ -110,7 +110,7 @@ module.exports = class Command extends InteractionBase {
 						data.Backpack[whereIsTheItem2[0]][e[0].name.replace(/ /gi, '')] -= e[2];
 						success = true;
 
-						data.save();
+						data.save().catch(() => {});
 					}
 					else {success = false;}
 				});
