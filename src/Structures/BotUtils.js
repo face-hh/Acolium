@@ -1,11 +1,7 @@
 const path = require('path');
 const { promisify } = require('util');
 const glob = promisify(require('glob'));
-<<<<<<< HEAD
-const Schema = require('../Schemas/Users')
-=======
 const Schema = require('../Schemas/Users');
->>>>>>> PLESAE WORK
 
 module.exports = class Utilities {
 	constructor(client) {
@@ -61,10 +57,7 @@ module.exports = class Utilities {
 		webhook.login('/topggVotes', 19606);
 		webhook.on('vote', async (x) => {
 			const data = await Schema.findOneAndUpdate({ UserId: x.user }, {}, { new: true, upsert: true, setDefaultsOnInsert: true });
-<<<<<<< HEAD
-=======
 
->>>>>>> PLESAE WORK
 			const coins = x.isWeekend === true ? 5000 : 2500;
 			const lootboxes = x.isWeekend === true ? 2 : 1;
 			const user = await this.client.getRESTUser(x.user);
@@ -73,19 +66,11 @@ module.exports = class Utilities {
 			data.Coins += coins;
 			data.Votes += lootboxes;
 
-<<<<<<< HEAD
-			await data.save()
-			this.client.createMessage((await this.client.getDMChannel(x.user)).id,
-				`Thanks for voting for me on top.gg! You received: **${this.client.config.coinEmoji} ${coins.toLocaleString()}** and **${
-					this.client.config.itemsData.find((y) => y.name === 'Common Chest').emoji
-				} ${lootboxes}**, ${x.isWeekend === true ? 'double beause it\'s weekend! T' : 't'}hanks for voting!`,
-=======
 			await data.save();
 			this.client.createMessage((await this.client.getDMChannel(x.user)).id,
 				`Thanks for voting for me on top.gg! You received: **${this.client.config.coinEmoji} ${coins.toLocaleString()}** and **${
 					this.client.config.itemsData.find((y) => y.name === 'Common Chest').emoji
 				} ${lootboxes}**, ${x.isWeekend === true ? 'double beause it\'s weekend!' : ''}`,
->>>>>>> PLESAE WORK
 			);
 
 			this.client.createMessage('949699134116483072', `**${user.username}** just voted for me, they are now at \`${data.Votes}\` votes!`);
