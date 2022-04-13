@@ -39,6 +39,7 @@ module.exports = class AcoliumDatabase {
 		data.Coins += 1200 * data.Statistics.LEVEL;
 
 		bool = true;
+		return { data, bool };
 	}
 
 	async addCoins(data, amount) {
