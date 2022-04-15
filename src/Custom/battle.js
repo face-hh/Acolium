@@ -216,7 +216,8 @@ module.exports = async (Canvas, randomEnemy, interaction, client, data, data2) =
 			if (!randomEnemy.isPlayer && wonByWho.NAME === interaction.member.user.username) {
 				const loot = await client.utils.generateBattleLoot(data, randomEnemy);
 				data = loot.data;
-				data.Achievements = (await client.db.addAchievement('ACH5', interaction, data, client)).Achievements;
+				const achieved = await client.db.addAchievement('ACH5', interaction, data, this.client);
+				data.Achievements = achieved.Achievements;
 
 				string += `\`\`\`${loot.str}`;
 				messageObject.embeds[0].description = string;
