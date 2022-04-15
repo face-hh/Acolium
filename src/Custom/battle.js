@@ -213,7 +213,7 @@ module.exports = async (Canvas, randomEnemy, interaction, client, data, data2) =
 			string += `[END] This game has ended!\n[END] The winner is ${wonByWho.NAME}.`;
 			collector.stopListening('end');
 
-			if (!randomEnemy.isPlayer && wonByWho.NAME === interaction.member.user.username) {
+			if (!randomEnemy.isPlayer && wonByWho.NAME === interaction.member.user.username.slice(0, 11)) {
 				const loot = await client.utils.generateBattleLoot(data, randomEnemy);
 				data = loot.data;
 				const achieved = await client.db.addAchievement('ACH5', interaction, data, client);
